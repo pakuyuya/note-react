@@ -1,22 +1,19 @@
 import React from 'react';
 import './App.css';
 import toggleImg from './image/bars_24.svg';
-
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Link,
+  Redirect 
+} from 'react-router-dom';
 
 class App extends React.Component {
   
   state = { hideMenu: false };
 
   render() {
-    const htmlMenu = 
-      !this.state.hideMenu ? 
-      (  <ul>
-          <li><a href="#">ポケモン検索</a></li>
-          <li><a href="#">わざ管理</a></li>
-          <li><a href="#">特性管理</a></li>
-          <li><a href="#">どうぐ管理</a></li>
-        </ul>
-      ) : '' ;
 
     return (
       <div className="App">
@@ -33,8 +30,34 @@ class App extends React.Component {
             <div className="toggleMenu"  onClick={() => this.toggleMenu()} >
               <img src={toggleImg} alt="toggle menu" width="38px"/>
             </div>
-            {htmlMenu}
+            {(!this.state.hideMenu) ? (
+              <ul>
+                <li><Link to="/pokemon">ポケモン検索</Link></li>
+                <li><Link to="/skill">わざ管理</Link></li>
+                <li><Link to="/ability">特性管理</Link></li>
+              </ul>
+            ) : (
+              ''
+            )}
           </nav>
+          <div className="main">
+            <BrowserRouter>
+              <Switch>
+                <Route path="/pokemon">
+                  <h2>ポケモン検索</h2>
+                </Route>
+                <Route path="/skill">
+                  <h2>わざ管理</h2>
+                </Route>
+                <Route path="/ability">
+                  <h2>特性管理</h2>
+                </Route>
+                <Route>
+                  <Redirect to="/pokemon" />
+                </Route>
+              </Switch>
+            </BrowserRouter>
+          </div>
         </div>
       </div>
     );
