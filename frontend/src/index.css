@@ -1,0 +1,6 @@
+/* 全要素に対して、margin,paddingを0に固定する */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
