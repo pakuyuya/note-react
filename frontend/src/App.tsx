@@ -1,13 +1,7 @@
 import React from 'react';
 import './App.css';
-import toggleImg from './image/bars_24.svg';
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  Link,
-  Redirect 
-} from 'react-router-dom';
+import toggleImg from '@/image/bars_24.svg';
+import {BrowserRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
 
 class App extends React.Component {
   
