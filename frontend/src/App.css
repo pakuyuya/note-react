@@ -1,3 +1,10 @@
+/**********************************************************************
+ * 画面共通レイアウトのCSS
+ **********************************************************************/
+
+/*
+ * 画面全体
+ */ 
 .App {
   min-height: 100vh;
 }
@@ -48,31 +55,45 @@
   }
 }
 
+/*
+ * ヘッダーから下部分
+ */ 
 .App-content {
   width: 100%;
   display: block flex;
   min-height: calc(100vh - 48px);
 }
 
+/*
+ * サイドバー
+ */
 .sidebar {
   /* 最小幅：200px */
-  width: 200px;
-  &.hide {
-    width: 38px;
-  }
-
-  
-  li {
-    list-style-type: none;
-  }
-
+  min-width: 200px;
   /* 最小高さ：画面サイズ100% - 48px */
   min-height: calc(100vh - 48px);
   /* 背景：カラーコード#f5f5f5 */
   background: #f5f5f5;
-
   /* ボックス影指定 */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  /* メニュー非表示時のスタイル*/
+  &.hide {
+    min-width: 38px;
+    width: 38px;
+
+    a {
+      width: 0px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  
+  li {
+    /* li要素のマーカーを非表示 */
+    list-style-type: none;
+  }
 
   .toggleMenu {
     margin-bottom: 10px;
@@ -105,3 +126,8 @@
   }
 }
 
+.App-main {
+  padding-top: 10px;
+  padding-left: 10px;
+  width: 100%;
+}

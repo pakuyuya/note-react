@@ -1,0 +1,21 @@
+.condition {
+    margin-bottom: 20px;
+}
+
+.list {
+    margin-top: 10px;
+}
+
+table {
+    width: 800px;
+}
+
+.skill-type {
+    font-size: 12px;
+}
+
+.flex {
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+}

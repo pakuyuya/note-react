@@ -5,6 +5,7 @@ npx create-react-app frontend
 cd frontend
 npm install react-router-dom@5
 npm install --save-dev @types/react-router-dom
+npm install --save-dev tailwindcss
 
 # バックエンド（APIサーバー）プロジェクトの作成
 cd ..
@@ -46,6 +47,9 @@ app.get('/', (req, res) => res.send('Hello World!'));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 ```
+
+## CSS監視
+npx tailwindcss -i ./src/index.css -o ./src/index_compiled.css --watch
 
 ## 実行
 npm run dev
