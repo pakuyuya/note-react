@@ -1,5 +1,7 @@
 import React from 'react';
 import './SkillPage.css';
+import {Route, withRouter} from 'react-router-dom';
+import {RouteComponentProps} from 'react-router';
 
 /**
  * SkillPageのstate型
@@ -38,8 +40,11 @@ type SkillState = {
     pagesize: number;
 }
 
-class SkillPage extends React.Component {
+class SkillPage extends React.Component<RouteComponentProps> {
 
+  /**
+   * state
+   */
   state: SkillState = {
     condition: {
       skill_name: '',
@@ -51,7 +56,17 @@ class SkillPage extends React.Component {
     pagesize: 20,
   };
 
+  /**
+   * ページ読み込み時の処理（マウント直後）
+   */
   componentDidMount() {
+    this.search();
+  }
+
+  /**
+   * 検索
+   */
+  search() {
     // TODO: サーバーからデータを取得する
 
     // サンプルデータを設定
@@ -90,6 +105,17 @@ class SkillPage extends React.Component {
     });
   }
 
+  clickAdd() {
+    this.props.history.push('/skill/add/');
+  }
+
+  clickRemoveSelected() {
+  }
+
+  /**
+   * 画面描画
+   * @returns HTML要素
+   */
   render() {
 
     return (
@@ -98,24 +124,33 @@ class SkillPage extends React.Component {
           <form onSubmit={this.onSearch}>
             <label className="condition-label col-1">わざ</label>
             <input className="condition-text col-2" type="text" name="skill_name" value={this.state.condition.skill_name} onChange={(e) => this.setState({condition: {skill_name: e.target.value}})} />
-            <button type="submit" className="primary">検索</button>
+            <button type="submit" className="primary" onClick={() => this.search()}>検索</button>
           </form>
         </div>
         <div className="list">
-          <div className="flex">
-            {renderPageMoveButtons(this.state.crtpage, this.state.lastpage, this.state.pagesize, (page) => {})}
-          </div>
+          <nav className="list-nav">
+            <div className="list-pages">
+              {renderPageMoveButtons(this.state.crtpage, this.state.lastpage, this.state.pagesize, (page) => {})}
+            </div>
+            <div className="list-cmd">
+              <button className="primary" onClick={() => this.clickAdd()}>＋新規作成</button>
+            </div>
+          </nav>
           <table>
             <tbody>
             <tr key={'header'}>
+              <th className="col-1 text-center">
+              <input type="checkbox"/>
+              </th>
               <th className="col-3">わざ</th>
               <th className="col-1">タイプ</th>
               <th className="col-1">威力</th>
               <th className="col-1">命中</th>
-              <th className="col-6">説明</th>
+              <th className="col-5">説明</th>
             </tr>
             {this.state.items.map((item) =>  (
               <tr key={item.skill_id}>
+                <td className="text-center"><input type="checkbox"/></td>
                 <td className="text-left">{item.skill_name}</td>
                 <td className="text-center skill-type">{item.type_name}</td>
                 <td className="text-center">{item.power}</td>
@@ -125,6 +160,12 @@ class SkillPage extends React.Component {
             ))}
             </tbody>
           </table>
+          <nav className="list-nav">
+            <div className="list-pages"></div>
+            <div className="list-cmd">
+              <button className="secondary" onClick={() => this.clickRemoveSelected()}>選択したものを削除</button>
+            </div>
+          </nav>
         </div>
       </div>
     );
@@ -178,4 +219,4 @@ function renderPageMoveButtons(crtpage: number, lastpage: number, maxViewPages: 
   );
 }
 
-export default SkillPage;
+export default withRouter(SkillPage);

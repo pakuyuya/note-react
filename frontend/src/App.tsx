@@ -4,6 +4,7 @@ import toggleImg from './image/bars_24.svg';
 import {BrowserRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
 
 import SkillPage from './page/SkillPage';
+import SkillEditPage from './page/SkillEditPage';
 
 class App extends React.Component {
   
@@ -36,6 +37,8 @@ class App extends React.Component {
           <div className="App-main">
             <Switch>
               <Route path="/pokemon" />
+              <Route path="/skill/edit/:id"  component={SkillEditPage} />
+              <Route path="/skill/add"  component={SkillEditPage} />
               <Route path="/skill"  component={SkillPage} />
               <Route path="/ability">
                 <h2>特性管理</h2>

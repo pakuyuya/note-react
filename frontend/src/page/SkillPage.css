@@ -1,9 +1,24 @@
 .condition {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 .list {
     margin-top: 10px;
+}
+.list-nav {
+    display: flex;
+    flex-direction: row;
+    width: 800px;
+}
+
+.list-pages {
+    flex-grow: 1;
+}
+
+.list-cmd {
+    width: 100px;
 }
 
 table {
@@ -14,8 +29,3 @@ table {
     font-size: 12px;
 }
 
-.flex {
-    width: 800px;
-    display: flex;
-    flex-direction: row;
-}
