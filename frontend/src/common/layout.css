@@ -12,57 +12,59 @@
  *  共通スタイル
  * -------------------------------------------------------- */
 
+/**
+ * ボタン
+ */
 button {
-padding: 3px 10px;
-margin: 5px;
-cursor: pointer;
-border: none;
+    padding: 3px 10px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
 
-
-/* 通常ボタンの色装飾 */
-color: black;
-background: #dddddd;
-&:hover {
-    background: #61dafb;
-}
-
-/* 非活性ボタンの色装飾 */
-&:disabled {
-    color: #888888;
-    background: #eeeef5;
-    cursor: default;
-    &:hover {
-    background: default;
-    }
-}
-
-/* primaryボタンの色装飾 */
-&.primary {
-    color: white;
-    background: #46b3e6;
-    &:hover {
-    background: #61dafb;
-    }
-}
-/* secondaryボタンの色装飾 */
-&.secondary {
-    color: #000;
+    /* 通常ボタンの色装飾 */
+    color: black;
     background: #dddddd;
     &:hover {
-    background: #61dafb;
+        background: #61dafb;
     }
-}
+    /* 非活性ボタンの色装飾 */
+    &:disabled {
+        color: #888888;
+        background: #eeeef5;
+        cursor: default;
+        &:hover {
+            background: default;
+        }
+    }
+    /* primaryボタンの色装飾 */
+    &.primary {
+        color: white;
+        background: #46b3e6;
+        &:hover {
+            background: #61dafb;
+        }
+    }
+    /* secondaryボタンの色装飾 */
+    &.secondary {
+        color: #000;
+        background: #dddddd;
+        &:hover {
+            background: #61dafb;
+        }
+    }
 
 }
 
 label {
-    margin-right: 5px;
-    margin-left: 5px;
-}
-input[type="text"], input[type="search"], input[type="password"], input[type="email"], input[type="number"], input[type="tel"], input[type="url"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="color"], input[type="file"], input[type="range"], input[type="submit"], input[type="reset"], input[type="button"], input[type="image"], input[type="radio"], input[type="checkbox"], select, textarea {
-    padding: 5px;
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+    text-align: center;
 }
 
+input[type="text"], input[type="search"], input[type="password"], input[type="email"], input[type="number"], input[type="tel"], select {
+    padding: 5px;
+}
 
 /*
  * テーブル
@@ -76,5 +78,7 @@ table {
 th, td {
     /* 枠線装飾 */
     border: solid 1px #cccccc;
+    /* 内余白 */
+    padding: 2px 5px;
 }
 
