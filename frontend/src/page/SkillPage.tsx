@@ -1,7 +1,10 @@
 import React from 'react';
-import './SkillPage.css';
 import {withRouter} from 'react-router-dom';
 import {RouteComponentProps} from 'react-router';
+
+import './SkillPage.css';
+
+import SkillEditPage from './SkillEditPage';
 
 /**
  * SkillPageのstate型
@@ -40,6 +43,7 @@ type SkillState = {
     lastpage: number;
     offset: number;
     pagesize: number;
+    showDialog: boolean;
 }
 
 class SkillPage extends React.Component<RouteComponentProps> {
@@ -56,6 +60,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
     lastpage: 1,
     offset: 0,
     pagesize: 20,
+    showDialog: false,
   };
 
   /**
@@ -110,7 +115,15 @@ class SkillPage extends React.Component<RouteComponentProps> {
   }
 
   clickAdd() {
-    this.props.history.push('/skill/add/');
+    this.setState({showDialog: true});
+    const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
+    dialog.showModal();
+  }
+
+  clickCloseDialog() {
+    this.setState({showDialog: false});
+    const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
+    dialog.close();
   }
 
   clickRemoveSelected() {
@@ -187,6 +200,12 @@ class SkillPage extends React.Component<RouteComponentProps> {
               <button className="secondary" onClick={(e) => this.clickRemoveSelected()}>選択したものを削除</button>
             </div>
           </nav>
+          <dialog id="skillEditDialog">
+            <div className="dialog-header-close">
+              <span onClick={(e) => this.clickCloseDialog()}>×</span>
+            </div>
+            {(this.state.showDialog) ? <SkillEditPage /> : null}
+          </dialog>
         </div>
       </div>
     );
