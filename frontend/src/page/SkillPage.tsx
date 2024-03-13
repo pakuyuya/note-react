@@ -1,6 +1,6 @@
 import React from 'react';
 import './SkillPage.css';
-import {Route, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {RouteComponentProps} from 'react-router';
 
 /**
@@ -13,6 +13,8 @@ type SkillState = {
     }
     /** 一覧 */
     items: {
+      /** 選択状態 */
+      checked: boolean;
       /** 技ID */
       skill_id: number;
       /** 技名 */
@@ -76,6 +78,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
       },
       items: [
         {
+          checked: false,
           skill_id: 1,
           skill_name: 'たいあたり',
           type_code: 'normal',
@@ -87,6 +90,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
           pp: 35,
         },
         {
+          checked: false,
           skill_id: 2,
           skill_name: 'かみなり',
           type_code: 'electric',
@@ -110,6 +114,23 @@ class SkillPage extends React.Component<RouteComponentProps> {
   }
 
   clickRemoveSelected() {
+    const items = this.state.items.filter((item) => !item.checked);
+    this.setState({items: items});
+  }
+
+  clickHeaderChecked(e: React.MouseEvent<HTMLInputElement>) {
+    const tobeChecked = e.currentTarget.checked;
+    const items = this.state.items.slice();
+    for (let i = 0; i < items.length; i++) {
+      items[i].checked = tobeChecked;
+    }
+    this.setState({items: items});
+  }
+
+  clickItemChecked(index: number) {
+    const items = this.state.items.slice();
+    items[index].checked = !items[index].checked;
+    this.setState({items: items});
   }
 
   /**
@@ -140,7 +161,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
             <tbody>
             <tr key={'header'}>
               <th className="col-1 text-center">
-              <input type="checkbox"/>
+              <input type="checkbox" onClick={(e) => this.clickHeaderChecked(e)} />
               </th>
               <th className="col-3">わざ</th>
               <th className="col-1">タイプ</th>
@@ -148,9 +169,9 @@ class SkillPage extends React.Component<RouteComponentProps> {
               <th className="col-1">命中</th>
               <th className="col-5">説明</th>
             </tr>
-            {this.state.items.map((item) =>  (
+            {this.state.items.map((item, i) =>  (
               <tr key={item.skill_id}>
-                <td className="text-center"><input type="checkbox"/></td>
+                <td className="text-center"><input type="checkbox" checked={item.checked} onClick={(e) => this.clickItemChecked(i)} /></td>
                 <td className="text-left">{item.skill_name}</td>
                 <td className="text-center skill-type">{item.type_name}</td>
                 <td className="text-center">{item.power}</td>
@@ -163,7 +184,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
           <nav className="list-nav">
             <div className="list-pages"></div>
             <div className="list-cmd">
-              <button className="secondary" onClick={() => this.clickRemoveSelected()}>選択したものを削除</button>
+              <button className="secondary" onClick={(e) => this.clickRemoveSelected()}>選択したものを削除</button>
             </div>
           </nav>
         </div>
