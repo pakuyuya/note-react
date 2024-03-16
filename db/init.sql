@@ -1,4 +1,4 @@
-CREATE USER appuser PASSWORD 'appuser';
+CREATE USER appuser PASSWORD 'passw0rd!';
 
 CREATE DATABASE pokedb OWNER appuser ENCODING UTF8;
 

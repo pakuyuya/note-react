@@ -15,7 +15,7 @@ mkdir backend
 cd backend
 
 ## TypeScriptのインストール
-npm install typescript ts-node
+npm install typescript ts-node 
 npm isntall --save-dev @types/node
 
 ## Expressおよび関連ライブラリのインストール
@@ -23,7 +23,7 @@ npm install express body-parser dotenv pg
 npm install --save-dev @types/express @types/body-parser @types/dotenv @types/pg
 
 ## 実行用ツールのインストール
-npm install --save-dev nodemon
+npm install --save-dev nodemon tsconfig-paths
 
 ## package.jsonの追記
 ```
