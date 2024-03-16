@@ -48,9 +48,6 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 ```
 
-## CSS監視
-npx tailwindcss -i ./src/index.css -o ./src/index_compiled.css --watch
-
 ## 実行
 npm run dev
 
