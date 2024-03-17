@@ -5,7 +5,19 @@ npx create-react-app frontend
 cd frontend
 npm install react-router-dom@5
 npm install --save-dev @types/react-router-dom
-npm install --save-dev tailwindcss
+
+## ビルド用ツールのインストール
+npm install --save-dev react-app-rewired
+
+## package.jsonの修正
+```json
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+```
 
 # バックエンド（APIサーバー）プロジェクトの作成
 cd ..
@@ -22,7 +34,7 @@ npm isntall --save-dev @types/node
 npm install express body-parser dotenv pg
 npm install --save-dev @types/express @types/body-parser @types/dotenv @types/pg
 
-## 実行用ツールのインストール
+## ビルド・実行用ツールのインストール
 npm install --save-dev nodemon tsconfig-paths
 
 ## package.jsonの追記
