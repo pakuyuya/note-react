@@ -1,14 +1,10 @@
 import pg from 'pg';
+import pool from '@/config/db';
 
 export class SkillSearchService {
-  private pool: pg.Pool;
-
-  constructor() {
-    this.pool = new pg.Pool();
-  }
-
+  
   async searchSkills(search: string): Promise<string[]> {
-    const client = await this.pool.connect();
+    const client = await pool.connect();
     const result = await client.query(
       'SELECT name FROM skills WHERE name ILIKE $1',
       [`%${search}%`]
@@ -16,13 +12,4 @@ export class SkillSearchService {
     client.release();
     return result.rows.map((row) => row.name);
   }
-}
-
-export interface SkillSearchParam {
-  skill_name: string;
-  offset: number;
-  pagesize: number;
-}
-export interface SkillSearchResult {
-  
 }
