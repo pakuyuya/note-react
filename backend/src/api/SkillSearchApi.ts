@@ -2,7 +2,7 @@ import express from 'express';
 import {PoolClient} from 'pg';
 
 import db from '@/config/db';
-import {SkillSearchService} from '@/service/SkillSearchService';
+import {SkillSearchService, SkillSearchResult} from '@/service/SkillSearchService';
 import {isRequired, isNumeric, isMaxlen} from '@/util/validation';
 
 export const router = express.Router();
@@ -32,24 +32,30 @@ router.get('/api/skill/search', async (req: express.Request, res: express.Respon
         return;
     }
 
-    // DB接続
-    let conn: (PoolClient)[] = [];
+    let conn: PoolClient | undefined;
     try {
-        res.status(200).json({});
+        // DB接続
+        conn = await db.connect();
+
+        // メイン処理
+
+        // SkillSearchService実行
+        const service = new SkillSearchService(conn);
+
+        const result = await service.searchSkills({
+            skill_name: query.skill_name,
+            offset: parseInt(query.offset || '0'),
+            limit: parseInt(query.limit || '20'),
+        });
+
+        res.status(200).json({
+            datas: result.datas,
+            total: result.total,
+        });
     } finally {
         if (conn) {
             // DB切断
-            conn.forEach(c => c.release());
+            conn.release();
         }
     }
 });
-
-
-export interface SkillSearchParam {
-    skill_name?: string;
-    offset?:     number;
-    limit?:   number;
-}
-export interface SkillSearchResult {
-
-}

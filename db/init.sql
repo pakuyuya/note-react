@@ -1,4 +1,5 @@
 CREATE USER appuser PASSWORD 'passw0rd!';
+grant 
 
 CREATE DATABASE pokedb OWNER appuser ENCODING UTF8;
 
@@ -57,7 +58,7 @@ CREATE TABLE pokedb.skill(
 	skill_description VARCHAR(400) NOT NULL,
 	type_code         CHAR(2) NOT NULL,
 	skill_attr_code   CHAR(1) NOT NULL,
-	base_power        INTEGER NOT NULL,
+	power             INTEGER NOT NULL,
 	hit               INTEGER NOT NULL,
 	max_pp            INTEGER NOT NULL,
 	create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -72,7 +73,7 @@ COMMENT ON COLUMN pokedb.skill.skill_name IS 'わざ名';
 COMMENT ON COLUMN pokedb.skill.skill_description IS 'わざの説明';
 COMMENT ON COLUMN pokedb.skill.type_code IS 'タイプ';
 COMMENT ON COLUMN pokedb.skill.skill_attr_code IS 'わざ属性';
-COMMENT ON COLUMN pokedb.skill.base_power IS '威力';
+COMMENT ON COLUMN pokedb.skill.power IS '威力';
 COMMENT ON COLUMN pokedb.skill.hit IS '命中率';
 COMMENT ON COLUMN pokedb.skill.max_pp IS '最大PP';
 COMMENT ON COLUMN pokedb.skill.create_at IS '作成日';

@@ -22,6 +22,7 @@ export async function connect(): Promise<PoolClient> {
     return await pool.connect();
 }
 
+// エクスポート定義
 export default {
     initPool,
     connect
