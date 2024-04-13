@@ -5,6 +5,7 @@ import {RouteComponentProps} from 'react-router';
 import './SkillPage.css';
 
 import SkillEditPage from './SkillEditPage';
+import {SkillSearchApiClient} from '@/api/SkillSearchApiClient';
 
 /**
  * SkillPageのstate型
@@ -46,6 +47,8 @@ type SkillState = {
     showDialog: boolean;
 }
 
+const skillSearchApiClient = new SkillSearchApiClient();
+
 class SkillPage extends React.Component<RouteComponentProps> {
 
   /**
@@ -75,6 +78,16 @@ class SkillPage extends React.Component<RouteComponentProps> {
    */
   search() {
     // TODO: サーバーからデータを取得する
+    skillSearchApiClient.search({
+      skill_name: this.state.condition.skill_name,
+      offset: this.state.offset,
+      limit: this.state.pagesize,
+    }).then((result) => {
+      this.setState({
+        items: result.datas,
+        lastpage: Math.ceil(result.total / this.state.pagesize),
+      });
+    });
 
     // サンプルデータを設定
     this.setState({

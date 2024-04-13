@@ -27,7 +27,7 @@ router.get('/api/skill/search', async (req: express.Request, res: express.Respon
     );
     
     if (errors.some((v) => v !== undefined)) {
-        // エラーありの場合、エラー応答を返却
+        // パラメータエラーありの場合、400応答
         res.status(400).json({errors: errors.filter((v) => v !== undefined)});
         return;
     }
