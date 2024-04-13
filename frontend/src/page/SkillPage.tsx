@@ -89,42 +89,6 @@ class SkillPage extends React.Component<RouteComponentProps> {
       });
     });
 
-    // サンプルデータを設定
-    this.setState({
-      condition: {
-        name: '',
-      },
-      items: [
-        {
-          checked: false,
-          skill_id: 1,
-          skill_name: 'たいあたり',
-          type_code: 'normal',
-          type_name: 'ノーマル',
-          skill_attr_code: 'physical',
-          skill_attr_name: '物理',
-          power: 40,
-          hit: 100,
-          pp: 35,
-        },
-        {
-          checked: false,
-          skill_id: 2,
-          skill_name: 'かみなり',
-          type_code: 'electric',
-          type_name: 'でんき',
-          skill_attr_code: 'special',
-          skill_attr_name: '特殊',
-          power: 110,
-          hit: 70,
-          pp: 10,
-        },
-      ],
-      crtpage: 1,
-      lastpage: 0,
-      offset: 0,
-      pagesize: 20,
-    });
   }
 
   clickAdd() {
