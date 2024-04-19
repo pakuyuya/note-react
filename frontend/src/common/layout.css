@@ -9,7 +9,24 @@
 }
 
 /* -------------------------------------------------------- *
- *  共通スタイル
+ *  共通色
+ * -------------------------------------------------------- */
+
+:root {
+    --bgcolor-title: #282c34;
+    --txcolor-title: white;
+
+    --bgcolor-primary: #46b3e6;
+    --bgcolor-primary-active: #61dafb;
+    --txcolor-primary: #ffffff;
+    --bgcolor-secondary: #dddddd;
+    --txcolor-secondary: #000000;
+    --bgcolor-teriary: #007F73;
+    --txcolor-teriary: #ffffff;
+}
+
+/* -------------------------------------------------------- *
+ *  共通スタイル（要素指定）
  * -------------------------------------------------------- */
 
 /**
@@ -38,18 +55,18 @@ button {
     }
     /* primaryボタンの色装飾 */
     &.primary {
-        color: white;
-        background: #46b3e6;
+        color: var(--txcolor-primary);
+        background: var(--bgcolor-primary);
         &:hover {
-            background: #61dafb;
+            background: var(--bgcolor-primary-active);
         }
     }
     /* secondaryボタンの色装飾 */
     &.secondary {
-        color: #000;
-        background: #dddddd;
+        color: var(--txcolor-secondary);
+        background: var(--bgcolor-secondary);
         &:hover {
-            background: #61dafb;
+            background: var(--bgcolor-primary-active);
         }
     }
 
@@ -64,6 +81,19 @@ label {
 
 input[type="text"], input[type="search"], input[type="password"], input[type="email"], input[type="number"], input[type="tel"], select {
     padding: 5px;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.field-row {
+    padding: 5px;    
+}
+.field-label {
+    display: inline-block;
+    text-align: center;
 }
 
 /*
@@ -93,25 +123,64 @@ dialog {
     left: 50vw;
     transform: translateX(-50%);
 
-    padding: 5px;
     border: 0;
-    border-radius: 0.6rem;
+    border-radius: 0.2rem;
     box-shadow: 0 0 1em black;
 }
 
 /* ダイアログ背景 */
 dialog::backdrop {
-
     /* 背景を半透明のブラックにする */
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* ダイアログヘッダ */
+.dialog-header {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    padding-left: 10px;
+    
+    background: var(--bgcolor-title);
+    color: var(--txcolor-title);
+}
+/* ダイアログヘッダ-タイトル */
+.dialog-header-title {
+    font-size: 20px;
+    font-weight: normal;
+    
+    line-height: 40px;
+    display: inline-block;
+    flex-grow: 1;
+}
+
+/* ダイアログヘッダ-閉じるボタン */
 .dialog-header-close {
+    line-height: 40px;
+    margin-right: 10px;
     color: #888;
     text-align: right;
     cursor: pointer;
+    font-size: 40px;
 
-    :hover {
-        color: #000;
+    &::after {
+        content:'×';
     }
+    &:hover {
+        color: #eee;
+    }
+}
+
+/* ダイアログ-コンテンツ */
+.dialog-content {
+    padding: 10px;
+}
+
+/* ダイアログ-下部ボタン */
+.dialog-command {
+    padding-top: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    text-align: right;
 }

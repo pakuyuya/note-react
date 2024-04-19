@@ -45,6 +45,7 @@ type SkillState = {
     offset: number;
     pagesize: number;
     showDialog: boolean;
+    dialogSkillId: number | undefined;
 }
 
 const skillSearchApiClient = new SkillSearchApiClient();
@@ -59,11 +60,12 @@ class SkillPage extends React.Component<RouteComponentProps> {
       skill_name: '',
     },
     items: [],
-    crtpage: 1,
-    lastpage: 1,
+    crtpage: 0,
+    lastpage: 0,
     offset: 0,
-    pagesize: 20,
+    pagesize: 0,
     showDialog: false,
+    dialogSkillId: undefined,
   };
 
   /**
@@ -151,7 +153,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
             <tbody>
             <tr key={'header'}>
               <th className="col-1 text-center">
-              <input type="checkbox" onClick={(e) => this.clickHeaderChecked(e)} />
+                <input type="checkbox" onClick={(e) => this.clickHeaderChecked(e)} />
               </th>
               <th className="col-3">わざ</th>
               <th className="col-1">タイプ</th>
@@ -178,10 +180,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
             </div>
           </nav>
           <dialog id="skillEditDialog">
-            <div className="dialog-header-close">
-              <span onClick={(e) => this.clickCloseDialog()}>×</span>
-            </div>
-            {(this.state.showDialog) ? <SkillEditPage /> : null}
+            {(this.state.showDialog) ? <SkillEditPage editId={this.state.dialogSkillId} onClose={() => this.clickCloseDialog()} /> : null}
           </dialog>
         </div>
       </div>
@@ -215,7 +214,7 @@ function renderPageMoveButtons(crtpage: number, lastpage: number, maxViewPages: 
   const buttons: JSX.Element[] = [];
   if (pagestart >= 1) {
     buttons.push(
-      <button onClick={() => onPageSelect(1)} className="secondary">最初</button>
+      <button key={'first'} onClick={() => onPageSelect(1)} className="secondary">最初</button>
     )
   }
   for (let i = pagestart; i <= pageend; i++) {
@@ -225,7 +224,7 @@ function renderPageMoveButtons(crtpage: number, lastpage: number, maxViewPages: 
   }
   if (pageend >= 0) {
     buttons.push(
-      <button onClick={() => onPageSelect(pageend)} className="secondary">最後</button>
+      <button key={'last'} onClick={() => onPageSelect(pageend)} className="secondary">最後</button>
     )
   }
 

@@ -14,7 +14,7 @@
 .App-header {
   
   /* 背景色 */
-  background-color: #282c34;
+  background-color: var(--bgcolor-title);
   /* 高さ */
   height: 48px;
   /* 包含要素を横並びにする */
