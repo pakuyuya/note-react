@@ -5,17 +5,24 @@ import {RouteComponentProps} from 'react-router';
 import './SkillPage.css';
 
 import SkillEditPage from './SkillEditPage';
-import {SkillSearchApiClient} from '@/api/SkillSearchApiClient';
+import {SkillSearchStore} from '@/stores/SkillSearchStore';
 
 /**
  * SkillPageのstate型
+ * @property condition 検索条件
+ * @property condition.skill_name わざ名
+ * @property items リスト
+ * @property crtpage 現在ページ
+ * @property lastpage 最終ページ
+ * @property offset オフセット
+ * @property pagesize ページサイズ
+ * @property showDialog ダイアログ表示フラグ
+ * @property dialogSkillId ダイアログの技ID
  */
 type SkillState = {
-    /** 検索条件 */
     condition: {
         skill_name: string;
     }
-    /** 一覧 */
     items: {
       /** 選択状態 */
       checked: boolean;
@@ -48,7 +55,7 @@ type SkillState = {
     dialogSkillId: number | undefined;
 }
 
-const skillSearchApiClient = new SkillSearchApiClient();
+const skillSearchApiClient = new SkillSearchStore();
 
 class SkillPage extends React.Component<RouteComponentProps> {
 

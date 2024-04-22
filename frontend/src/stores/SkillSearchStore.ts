@@ -19,7 +19,7 @@ interface SkillSearchResult {
     total: number;
 }
 
-export class SkillSearchApiClient {
+export class SkillSearchStore {
     async search(param: SkillSearchParam): Promise<SkillSearchResult> {
         const requestParams = {
             skill_name: param.skill_name || '',
