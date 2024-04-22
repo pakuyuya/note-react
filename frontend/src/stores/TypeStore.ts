@@ -30,20 +30,20 @@ export class TypeStore {
     ];
 
     /**
+     * 空のタイプ定義を取得
+     * @returns タイプの一覧
+     */
+    empty(): Type {
+        return { type_code: '', type_name: '', bgColor: '#FFFFFF', textColor: '#000000'};
+    }
+
+    /**
      * タイプコードから定義を取得
      * @param type_code 
      * @returns 
      */
     async fetchByCode(type_code: string): Promise<Type | undefined> {
         return this.types.find(type => type.type_code === type_code);
-    }
-
-    /**
-     * 空のタイプ定義を取得
-     * @returns タイプの一覧
-     */
-    empty(): Type {
-        return { type_code: 'xx', type_name: '', bgColor: '#FFFFFF', textColor: '#000000'};
     }
 
     /**

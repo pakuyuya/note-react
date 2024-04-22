@@ -7,6 +7,10 @@ export class AttrStore {
         { attr_code: '3', attr_name: '変化',  },
     ];
 
+    empty(): Attr {
+        return { attr_code: '', attr_name: '', };
+    }
+
     async fetchByCode(attr_code: string): Promise<Attr | undefined> {
         return this.attrs.find(attr => attr.attr_code === attr_code);
     }

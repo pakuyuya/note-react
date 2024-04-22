@@ -34,9 +34,9 @@ type SkillState = {
       type_code: string;
       /** タイプ名 */
       type_name: string;
-      /** 属性コード */
+      /** 種別コード */
       skill_attr_code: string;
-      /** 属性名 */
+      /** 種別名 */
       skill_attr_name: string;
       /** 威力 */
       power?: number;
@@ -46,7 +46,7 @@ type SkillState = {
       pp: number;
       /** 説明 */
       skill_description: string;
-    }[]
+    }[];
     crtpage: number;
     lastpage: number;
     offset: number;
