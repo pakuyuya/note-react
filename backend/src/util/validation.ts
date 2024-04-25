@@ -6,7 +6,7 @@
  * @param name 項目名
  * @returns エラー無しの場合undefined。エラーありの場合エラーメッセージ
  */
-export function isRequired(s:string | undefined, name:string): string | undefined {
+export function isRequired(s:any, name:string): string | undefined {
     if (s === undefined || s === null || s === '') {
         return `${name}が指定されていません`;
     }
@@ -24,10 +24,14 @@ export function isRequired(s:string | undefined, name:string): string | undefine
  * @param opt.max 最大値。省略時はチェックしない
  * @returns エラー無しの場合undefined。エラーありの場合エラーメッセージ
  */
-export function isNumeric(s:string | undefined, name:string, opt?:{min?:number, max?: number}): string | undefined {
+export function isNumeric(s:string | number | undefined, name:string, opt?:{min?:number, max?: number}): string | undefined {
     if (s === undefined || s === null || s === '') {
         return undefined;
     }
+
+    if (typeof s === 'number') {
+        return undefined;
+    }    
 
     if (!s.match(/^[-\d]+$/)) {
         return `${name}に半角数字以外が指定されています`;
@@ -67,6 +71,31 @@ export function isMaxlen(s:string | undefined, name:string, len: number): string
 
     if (s.length > len) {
         return `${name}が${len}桁を超えています`;
+    }
+
+    return undefined;
+}
+
+/**
+ * 入力数値の範囲をチェックする<br>
+ * 
+ * @param n 検査対象の項目
+ * @param name 項目名
+ * @param min 最大桁数
+ * @param max 最大桁数
+ * @returns エラー無しの場合undefined。エラーありの場合エラーメッセージ
+ */
+export function isRange(n: string | number | undefined, name: string, min: number, max: number): string | undefined {
+    if (n === undefined || n === null) {
+        return undefined;
+    }
+    
+    if (typeof n === 'string') {
+        n = parseInt(n, 10);
+    }
+
+    if (n < min || n > max) {
+        return `${name}は ${min} - ${max} で指定してください`;
     }
 
     return undefined;

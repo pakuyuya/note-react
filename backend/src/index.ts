@@ -12,9 +12,10 @@ require('@/config/db').initPool();
 // Expressアプリケーションの設定
 const app = express();
 // POSTパラメータ解析を有効化
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(require('@/api/SkillSearchApi').router);
+app.use(require('@/api/SkillAddApi').router);
 
 const port = 3001;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

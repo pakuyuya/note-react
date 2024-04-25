@@ -27,8 +27,8 @@ CREATE TABLE pokedb.pokemon(
 	base_spd INTEGER NOT NULL,
 	create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	create_pgm TIMESTAMP NOT NULL,
-	update_pgm TIMESTAMP NOT NULL,
+	create_pgm VARCHAR(20) NOT NULL,
+	update_pgm VARCHAR(20) NOT NULL,
 	PRIMARY KEY (pokemon_id)
 );
 COMMENT ON TABLE pokedb.pokemon IS 'ポケモン';
@@ -63,8 +63,8 @@ CREATE TABLE pokedb.skill(
 	max_pp            INTEGER NOT NULL,
 	create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	create_pgm TIMESTAMP NOT NULL,
-	update_pgm TIMESTAMP NOT NULL,
+	create_pgm VARCHAR(20) NOT NULL,
+	update_pgm VARCHAR(20) NOT NULL,
 	PRIMARY KEY (skill_id)
 );
 COMMENT ON TABLE pokedb.skill IS 'わざ';
@@ -88,8 +88,8 @@ CREATE TABLE pokedb.ability(
 	ability_description VARCHAR(400) NOT NULL,
 	create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	create_pgm TIMESTAMP NOT NULL,
-	update_pgm TIMESTAMP NOT NULL,
+	create_pgm VARCHAR(20) NOT NULL,
+	update_pgm VARCHAR(20) NOT NULL,
 	PRIMARY KEY (ability_id)
 );
 COMMENT ON TABLE pokedb.ability IS '特性';
@@ -107,8 +107,8 @@ CREATE TABLE pokedb.item(
 	item_name VARCHAR(30) NOT NULL,
 	create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	create_pgm TIMESTAMP NOT NULL,
-	update_pgm TIMESTAMP NOT NULL,
+	create_pgm VARCHAR(20) NOT NULL,
+	update_pgm VARCHAR(20) NOT NULL,
 	PRIMARY KEY (item_id)
 );
 COMMENT ON TABLE pokedb.item IS 'どうぐ';
@@ -141,8 +141,8 @@ CREATE TABLE pokedb.pokemon_evolution(
 	evolution_text VARCHAR(50) NOT NULL,
 	create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	create_pgm TIMESTAMP NOT NULL,
-	update_pgm TIMESTAMP NOT NULL,
+	create_pgm VARCHAR(20) NOT NULL,
+	update_pgm VARCHAR(20) NOT NULL,
 	PRIMARY KEY (pokemon_id_prev, pokemon_id_next)
 );
 COMMENT ON TABLE pokedb.pokemon_evolution IS 'ポケモン進化';
@@ -158,3 +158,15 @@ COMMENT ON COLUMN pokedb.pokemon_evolution.create_at IS '作成日';
 COMMENT ON COLUMN pokedb.pokemon_evolution.update_at IS '更新日';
 COMMENT ON COLUMN pokedb.pokemon_evolution.create_pgm IS '作成プログラム';
 COMMENT ON COLUMN pokedb.pokemon_evolution.update_pgm IS '更新プログラム';
+
+DROP SEQUENCE IF EXISTS pokedb.pokemon_id_seq;
+CREATE SEQUENCE pokedb.pokemon_id_seq;
+COMMENT ON SEQUENCE pokedb.pokemon_id_seq IS 'ポケモンIDシーケンス';
+
+DROP SEQUENCE IF EXISTS pokedb.skill_id_seq;
+CREATE SEQUENCE pokedb.skill_id_seq;
+COMMENT ON SEQUENCE pokedb.skill_id_seq IS 'わざIDシーケンス';
+
+DROP SEQUENCE IF EXISTS pokedb.ability_id_seq;
+CREATE SEQUENCE pokedb.ability_id_seq;
+COMMENT ON SEQUENCE pokedb.ability_id_seq IS '特性IDシーケンス';

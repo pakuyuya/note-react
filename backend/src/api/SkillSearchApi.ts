@@ -17,7 +17,7 @@ router.get('/api/skill/search', async (req: express.Request, res: express.Respon
     // パラメータ検証
     const errors = [];
     errors.push(
-        isMaxlen(query.skill_name, 'スキル名', 50),
+        isMaxlen(query.skill_name, 'わざ名', 50),
 
         isRequired(query.offset, 'offset'),
         isNumeric(query.offset, 'offset'),

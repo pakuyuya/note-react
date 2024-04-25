@@ -279,7 +279,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
             </div>
             <div className="field-row">
               <label className="field-label col-2">タイプ</label>
-              <select className="col-6" defaultValue={this.state.type_code} disabled={!this.state.ready}>
+              <select className="col-6" defaultValue={this.state.type_code} disabled={!this.state.ready} onChange={(e) => this.setState({type_code: e.target.value})}>
                 {this.state.types.map(type => (
                   <option key={type.type_code} value={type.type_code}
                           onSelect={(e) => this.setState({type_code: type.type_code})}>{type.type_name}</option>
