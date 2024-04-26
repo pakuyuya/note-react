@@ -9,14 +9,19 @@ import { SkillStore } from '@/stores/SkillStore';
 import { Attr } from '@/types/Attr';
 import { AttrStore } from '@/stores/AttrStore';
 
+/**
+ * propsの型定義
+ */
 type SkilEditProps = RouteComponentProps & {
   editId: number | undefined;
   onClose: () => void;
 }
 
+
 /**
  * SkillPageのstate型
  * @property skill_id わざID
+ * @property mode モード（add:登録, edit:編集）
  * @property ready 読み込み完了フラグ
  * @property infoMessages 情報メッセージ
  * @property errorMessages エラーメッセージ
@@ -34,6 +39,7 @@ type SkilEditProps = RouteComponentProps & {
  */
 type SkillEditState = {
   skill_id: number | undefined;
+  mode: 'add' | 'edit';
   ready: boolean;
   infoMessages: string[];
   errorMessages: string[];
@@ -67,6 +73,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
    */
   plainState: SkillEditState = {
     skill_id: undefined,
+    mode: 'add',
     ready: false,
     infoMessages: [],
     errorMessages: [],
@@ -101,6 +108,9 @@ class SkillEditPage extends React.Component<SkilEditProps> {
 
   }
 
+  /**
+   * 保存ボタン押下
+   */
   clickSave() {
     // validation
     const errorMessages = this.validate();
@@ -109,19 +119,25 @@ class SkillEditPage extends React.Component<SkilEditProps> {
       this.setState({errorMessages: errorMessages});
       return;
     }
+
+    // エラーメッセージをクリア
     this.setState({errorMessages: [], infoMessages: []});
 
+    // 保存処理
     this.save()
       .then((skill) => {
+
+        // 画面を再読み込み
         this.reload(skill.skill_id)
             .then(() => {
+              // メッセージ表示
               this.setState({infoMessages: ['保存しました']});
             });
       });
   }
 
   // ---------------------------------------
-  // 各処理のprivateメソッド
+  // privateメソッド
   // ---------------------------------------
 
   /**
@@ -133,8 +149,10 @@ class SkillEditPage extends React.Component<SkilEditProps> {
 
     // 読み込み前から画面表示するデータを設定する
     if (state.skill_id === undefined) {
+      state.mode = 'add';
       state.title = 'わざ登録';
     } else {
+      state.mode = 'edit';
       state.title = 'わざ編集';
     }
 
@@ -186,10 +204,6 @@ class SkillEditPage extends React.Component<SkilEditProps> {
       console.error(err);
 
       this.setState(state);
-    })
-    .catch((err) => {
-      console.error(err);
-      this.setState({errorMessages: ['処理に失敗しました。再度実行して改善しない場合、管理者にお問い合わせください']});
     });
   }
 
@@ -230,22 +244,35 @@ class SkillEditPage extends React.Component<SkilEditProps> {
     return errors;
   }
 
+  /**
+   * 保存処理
+   * @returns Store呼び出し結果
+   */
   async save(): Promise<Skill> {
     const state = this.state;
     const skill : Skill =
       {
+        // わざID（初期値：0）
         skill_id: state.skill_id || 0,
+        // わざ名
         skill_name: state.skill_name,
+        // わざ説明
         skill_description: state.skill_description,
+        // タイプ（初期値：空文字）
         type_code: state.type_code || '',
+        // 種別（初期値：空文字）
         skill_attr_code: state.skill_attr_code || '',
+        // 威力（初期値：0）
         power: state.power || 0,
+        // 命中率（初期値：0）
         hit: state.hit || 0,
+        // 最大PP（初期値：0）
         max_pp: state.max_pp || 0,
       };
     
-    return state.skill_id === undefined ? this.skillStore.add(skill)
-                                        : this.skillStore.update(skill);
+    // 登録・更新処理
+    return state.mode === 'add' ? this.skillStore.add(skill)
+                                : this.skillStore.update(skill);
   }
 
 
@@ -266,9 +293,19 @@ class SkillEditPage extends React.Component<SkilEditProps> {
             {this.state.infoMessages.map((message) => (
               <div key={message} className="message-info">{message}</div>
             ))}
-            {this.state.errorMessages.map((message) => (
-              <div key={message} className="message-error">{message}</div>
-            ))}
+            {
+            (this.state.errorMessages.length > 0) && // エラーメッセージがある場合のみ表示
+              (
+                <div className="message-error">
+                  <div className="message-caption">入力エラーがあります。</div>
+                  <ul>
+                    {this.state.errorMessages.map((message) => ( // エラーメッセージの分繰り返す
+                      <li key={message}>{message}</li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
             <div className="field-row">
               <label className="field-label col-2">わざ名</label>
               <input className="col-6" type="text" value={this.state.skill_name} onChange={(e) => this.setState({skill_name: e.target.value})} disabled={!this.state.ready} />

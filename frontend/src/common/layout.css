@@ -184,3 +184,31 @@ dialog::backdrop {
     padding-bottom: 10px;
     text-align: right;
 }
+
+.message-caption {
+    font-weight: bold;;
+}
+
+.message-info {
+    color: #055160;
+    background-color: #cff4fc;
+    line-height: 16px;
+    font-size: 16px;
+    padding: 5px;
+    margin: 5px;
+}
+.message-error {
+    color: #58151c;
+    background-color: #f8d7da;
+    line-height: 24px;
+    font-size: 16px;
+    margin: 5px;
+    padding: 10px;
+    
+    ul {
+        margin-top: 5px;
+    }
+    li {
+        margin-left: 20px;
+    }
+}
