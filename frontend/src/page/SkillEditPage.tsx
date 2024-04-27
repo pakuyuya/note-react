@@ -173,8 +173,6 @@ class SkillEditPage extends React.Component<SkilEditProps> {
       // 種別一覧
       state.attrs = attrs;
 
-      console.log(skill);
-
       if (skill !== undefined) {
         // APIに問合せしてスキル情報が取得できた場合、stateに反映
 
