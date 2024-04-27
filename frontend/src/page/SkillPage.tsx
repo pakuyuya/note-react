@@ -105,18 +105,9 @@ class SkillPage extends React.Component<RouteComponentProps> {
    * 新規作成ボタンクリック
    */
   clickAdd() {
-    this.setState({showDialog: true});
+    this.setState({showDialog: true, dialogSkillId: undefined});
     const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
     dialog.showModal();
-  }
-
-  /**
-   * ダイアログ閉じるボタンクリック
-   */  
-  clickCloseDialog() {
-    this.setState({showDialog: false});
-    const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
-    dialog.close();
   }
 
   /**
@@ -143,12 +134,33 @@ class SkillPage extends React.Component<RouteComponentProps> {
   }
 
   /**
+   * わざ名クリック
+   */
+  clickSkillName(skill_id: number) {
+    // ダイアログ表示のパラメータ設定
+    this.setState({showDialog: true, dialogSkillId: skill_id});
+
+    // ダイアログ表示
+    const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
+    dialog.showModal();
+  }
+
+  /**
    * 選択したものを削除ボタンクリック
    */
   clickRemoveSelected() {
     // TODO: 
   }
   
+  /**
+   * ダイアログ閉じるボタンクリック
+   */  
+  clickCloseDialog() {
+    this.setState({showDialog: false});
+    const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
+    dialog.close();
+  }
+
   // ------------------------------
   // 内部処理
   // ------------------------------
@@ -236,7 +248,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
             {this.state.items.map((item, i) =>  (
               <tr key={item.skill_id}>
                 <td className="text-center"><input type="checkbox" checked={item.checked} onClick={(e) => this.clickItemChecked(i)} /></td>
-                <td className="text-left">{item.skill_name}</td>
+                <td className="text-left"><a href="#" onClick={() => this.clickSkillName(item.skill_id)}>{item.skill_name}</a></td>
                 <td className="text-center skill-type">{item.type_name}</td>
                 <td className="text-center">{item.power}</td>
                 <td className="text-center">{item.hit}</td>
