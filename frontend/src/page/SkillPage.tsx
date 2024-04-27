@@ -6,8 +6,7 @@ import './SkillPage.css';
 
 import SkillEditPage from './SkillEditPage';
 import {SkillSearchStore} from '@/stores/SkillSearchStore';
-import { TypeStore } from '@/stores/TypeStore';
-import { AttrStore } from '@/stores/AttrStore';
+import {TypeStore} from '@/stores/TypeStore';
 
 /**
  * SkillPageのstate型
@@ -51,9 +50,21 @@ type SkillState = {
     dialogSkillId: number | undefined;
 }
 
-const skillSearchApiClient = new SkillSearchStore();
 
+// ------------------------------
+// 依存Store
+// ------------------------------
+const skillSearchApiClient = new SkillSearchStore();
+const typeStore = new TypeStore();
+
+/**
+ * わざ一覧ページ
+ */
 class SkillPage extends React.Component<RouteComponentProps> {
+
+  // ------------------------------
+  // state
+  // ------------------------------
 
   /**
    * state
@@ -71,8 +82,10 @@ class SkillPage extends React.Component<RouteComponentProps> {
     dialogSkillId: undefined,
   };
 
-  typeStore = new TypeStore();
-  attrStore = new AttrStore();
+
+  // ------------------------------
+  // イベントハンドラ
+  // ------------------------------
 
   /**
    * ページ読み込み時の処理（マウント直後）
@@ -85,26 +98,31 @@ class SkillPage extends React.Component<RouteComponentProps> {
     // ブラウザのデフォルト動作をキャンセル（Submit）
     e.preventDefault();
 
-    // TODO: 検索メソッド呼出し
+    this.search();
   }
 
+  /**
+   * 新規作成ボタンクリック
+   */
   clickAdd() {
     this.setState({showDialog: true});
     const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
     dialog.showModal();
   }
 
+  /**
+   * ダイアログ閉じるボタンクリック
+   */  
   clickCloseDialog() {
     this.setState({showDialog: false});
     const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
     dialog.close();
   }
 
-  clickRemoveSelected() {
-    const items = this.state.items.filter((item) => !item.checked);
-    this.setState({items: items});
-  }
-
+  /**
+   * ヘッダチェッククリック
+   * @param e イベント引数
+   */
   clickHeaderChecked(e: React.MouseEvent<HTMLInputElement>) {
     const tobeChecked = e.currentTarget.checked;
     const items = this.state.items.slice();
@@ -114,27 +132,39 @@ class SkillPage extends React.Component<RouteComponentProps> {
     this.setState({items: items});
   }
 
+  /**
+   * チェック選択クリック
+   * @param index 配列番号
+   */
   clickItemChecked(index: number) {
     const items = this.state.items.slice();
     items[index].checked = !items[index].checked;
     this.setState({items: items});
   }
 
+  /**
+   * 選択したものを削除ボタンクリック
+   */
+  clickRemoveSelected() {
+    // TODO: 
+  }
+  
+  // ------------------------------
+  // 内部処理
+  // ------------------------------
   
   /**
    * 検索
    */
   search() {
-    // TODO: サーバーからデータを取得する
     skillSearchApiClient.search({
       skill_name: this.state.condition.skill_name,
       offset: this.state.offset,
       limit: this.state.pagesize,
     }).then(async (result) => {
 
-      // 検索結果の配列をmapを使って変換
+      // 表示リストを作成
       const items = [];
-
       for (const data of result.datas) {
         items.push({
           // 選択状態
@@ -144,7 +174,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
           // わざ
           skill_name: data.skill_name,
           // タイプ
-          type_name: await this.typeStore.getName(data.type_code),
+          type_name: await typeStore.getName(data.type_code),
           // 威力（0または設定無しの場合、'-'を表示）
           power: data.power || '-',
           // 命中（0または設定無しの場合、'-'を表示）
@@ -154,6 +184,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
         });
       }
 
+      // 画面反映
       this.setState({
         items: items,
         lastpage: Math.ceil(result.total / this.state.pagesize),
@@ -161,6 +192,10 @@ class SkillPage extends React.Component<RouteComponentProps> {
     });
 
   }
+
+  // ------------------------------
+  // レンダリング
+  // ------------------------------
 
   /**
    * 画面描画
@@ -223,7 +258,6 @@ class SkillPage extends React.Component<RouteComponentProps> {
       </div>
     );
   }
-
 }
 
 /**
@@ -266,4 +300,5 @@ function renderPageMoveButtons(crtpage: number, lastpage: number, maxViewPages: 
   );
 }
 
+// export
 export default withRouter(SkillPage);
