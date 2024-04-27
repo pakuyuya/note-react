@@ -3,11 +3,12 @@ import { Skill } from '@/types/Skill';
 export class SkillStore {
 
     async fetchById(skill_id: number): Promise<Skill | undefined> {
-        const response = await fetch(`/api/skill/get/${skill_id}`);
+        const response = await fetch(`/api/skill/fetch/${skill_id}`);
         if (!response.ok) {
             throw new Error('Failed to fetch skill');
         }
-        return response.json();
+        const body = await response.json();
+        return await body.data;
     }
     
     async add(skill: Skill): Promise<Skill> {
@@ -22,7 +23,8 @@ export class SkillStore {
             console.error(response.body);
             throw new Error('Failed to add skill');
         }
-        return response.json();
+        const body = await response.json();
+        return body.data;
     }
     
     async update(skill: Skill): Promise<Skill> {

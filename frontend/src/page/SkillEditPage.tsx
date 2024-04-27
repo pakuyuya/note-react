@@ -148,7 +148,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
     const state = {...this.plainState};
 
     // 読み込み前から画面表示するデータを設定する
-    if (state.skill_id === undefined) {
+    if (skill_id === undefined) {
       state.mode = 'add';
       state.title = 'わざ登録';
     } else {
@@ -163,8 +163,8 @@ class SkillEditPage extends React.Component<SkilEditProps> {
     Promise.all([
       this.typeStore.fetchAll(),
       this.attrStore.fetchAll(),
-      state.skill_id === undefined ? Promise.resolve(undefined)
-                                   : this.skillStore.fetchById(state.skill_id)
+      state.mode === 'add' ? Promise.resolve(undefined)
+                           : this.skillStore.fetchById(skill_id || 0)
     ]).then(([types, attrs, skill]) => {
       // 全てのPromiseが正常終了した場合
 
@@ -172,6 +172,8 @@ class SkillEditPage extends React.Component<SkilEditProps> {
       state.types = [this.typeStore.empty(), ...types];
       // 種別一覧
       state.attrs = attrs;
+
+      console.log(skill);
 
       if (skill !== undefined) {
         // APIに問合せしてスキル情報が取得できた場合、stateに反映
