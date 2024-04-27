@@ -151,7 +151,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
           hit: data.hit || '-',
           // 説明
           skill_description: data.skill_description,
-        })
+        });
       }
 
       this.setState({
