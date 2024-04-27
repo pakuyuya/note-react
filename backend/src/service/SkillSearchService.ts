@@ -54,7 +54,7 @@ export class SkillSearchService {
             max_pp: row.max_pp
           };
         }),
-        total: totalResult.rows[0].cnt,
+        total: totalResult.rows[0].total,
       };
     } finally {
       if (client) {

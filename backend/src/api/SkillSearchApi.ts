@@ -8,11 +8,14 @@ import {isRequired, isNumeric, isMaxlen} from '@/util/validation';
 export const router = express.Router();
 
 router.get('/api/skill/search', async (req: express.Request, res: express.Response) => {
+    console.log('GET /api/skill/search');
+
     const query:  {
         skill_name?: string;
         offset?:     string;
         limit?:   string;
     } = req.query;
+    console.debug('with parameter', query);
 
     // パラメータ検証
     const errors = [];
