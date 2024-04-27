@@ -42,8 +42,8 @@ export class TypeStore {
      * @param type_code 
      * @returns 
      */
-    async fetchByCode(type_code: string): Promise<Type | undefined> {
-        return this.types.find(type => type.type_code === type_code);
+    async getName(type_code: string): Promise<string | undefined> {
+        return this.types.find(type => type.type_code === type_code)?.type_name;
     }
 
     /**

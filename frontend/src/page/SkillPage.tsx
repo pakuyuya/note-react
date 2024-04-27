@@ -6,6 +6,8 @@ import './SkillPage.css';
 
 import SkillEditPage from './SkillEditPage';
 import {SkillSearchStore} from '@/stores/SkillSearchStore';
+import { TypeStore } from '@/stores/TypeStore';
+import { AttrStore } from '@/stores/AttrStore';
 
 /**
  * SkillPageのstate型
@@ -34,16 +36,10 @@ type SkillState = {
       type_code: string;
       /** タイプ名 */
       type_name: string;
-      /** 種別コード */
-      skill_attr_code: string;
-      /** 種別名 */
-      skill_attr_name: string;
       /** 威力 */
       power?: number;
       /** 命中 */
       hit?: number;
-      /** PP */
-      pp: number;
       /** 説明 */
       skill_description: string;
     }[];
@@ -75,29 +71,21 @@ class SkillPage extends React.Component<RouteComponentProps> {
     dialogSkillId: undefined,
   };
 
+  typeStore = new TypeStore();
+  attrStore = new AttrStore();
+
   /**
    * ページ読み込み時の処理（マウント直後）
    */
   componentDidMount() {
     this.search();
   }
+  
+  submitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    // ブラウザのデフォルト動作をキャンセル（Submit）
+    e.preventDefault();
 
-  /**
-   * 検索
-   */
-  search() {
-    // TODO: サーバーからデータを取得する
-    skillSearchApiClient.search({
-      skill_name: this.state.condition.skill_name,
-      offset: this.state.offset,
-      limit: this.state.pagesize,
-    }).then((result) => {
-      this.setState({
-        items: result.datas,
-        lastpage: Math.ceil(result.total / this.state.pagesize),
-      });
-    });
-
+    // TODO: 検索メソッド呼出し
   }
 
   clickAdd() {
@@ -132,6 +120,48 @@ class SkillPage extends React.Component<RouteComponentProps> {
     this.setState({items: items});
   }
 
+  
+  /**
+   * 検索
+   */
+  search() {
+    // TODO: サーバーからデータを取得する
+    skillSearchApiClient.search({
+      skill_name: this.state.condition.skill_name,
+      offset: this.state.offset,
+      limit: this.state.pagesize,
+    }).then(async (result) => {
+
+      // 検索結果の配列をmapを使って変換
+      const items = [];
+
+      for (const data of result.datas) {
+        items.push({
+          // 選択状態
+          checked: false,
+          // id
+          skill_id: data.skill_id,
+          // わざ
+          skill_name: data.skill_name,
+          // タイプ
+          type_name: await this.typeStore.getName(data.type_code),
+          // 威力（0または設定無しの場合、'-'を表示）
+          power: data.power || '-',
+          // 命中（0または設定無しの場合、'-'を表示）
+          hit: data.hit || '-',
+          // 説明
+          skill_description: data.skill_description,
+        })
+      }
+
+      this.setState({
+        items: items,
+        lastpage: Math.ceil(result.total / this.state.pagesize),
+      });
+    });
+
+  }
+
   /**
    * 画面描画
    * @returns HTML要素
@@ -141,10 +171,10 @@ class SkillPage extends React.Component<RouteComponentProps> {
     return (
       <div className="Skill">
         <div className="condition">
-          <form onSubmit={this.onSearch}>
+          <form onSubmit={(e) => this.submitSearch(e)}>
             <label className="condition-label col-1">わざ</label>
             <input className="condition-text col-2" type="text" name="skill_name" value={this.state.condition.skill_name} onChange={(e) => this.setState({condition: {skill_name: e.target.value}})} />
-            <button type="submit" className="primary" onClick={() => this.search()}>検索</button>
+            <button type="submit" className="primary">検索</button>
           </form>
         </div>
         <div className="list">
@@ -194,12 +224,6 @@ class SkillPage extends React.Component<RouteComponentProps> {
     );
   }
 
-  onSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    // ブラウザのデフォルト動作をキャンセル（Submit）
-    e.preventDefault();
-
-    // TODO: 検索メソッド呼出し
-  }
 }
 
 /**

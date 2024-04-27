@@ -12,6 +12,7 @@ interface SkillSearchResult {
         type_name: string;
         skill_attr_code: string;
         skill_attr_name: string;
+        skill_description: string;
         power: number | null;
         hit: number | null;
         max_pp: number | null;
