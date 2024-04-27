@@ -308,11 +308,11 @@ class SkillEditPage extends React.Component<SkilEditProps> {
             }
             <div className="field-row">
               <label className="field-label col-2">わざ名</label>
-              <input className="col-6" type="text" value={this.state.skill_name} onChange={(e) => this.setState({skill_name: e.target.value})} disabled={!this.state.ready} />
+              <input className="col-6" type="text" defaultValue={this.state.skill_name} onChange={(e) => this.setState({skill_name: e.target.value})} disabled={!this.state.ready} />
             </div>
             <div className="field-row">
               <label className="field-label col-2">わざ説明</label>
-              <input className="col-6" type="text" value={this.state.skill_description} onChange={(e) => this.setState({skill_description: e.target.value})} disabled={!this.state.ready} />
+              <input className="col-6" type="text" defaultValue={this.state.skill_description} onChange={(e) => this.setState({skill_description: e.target.value})} disabled={!this.state.ready} />
             </div>
             <div className="field-row">
               <label className="field-label col-2">タイプ</label>
@@ -334,15 +334,15 @@ class SkillEditPage extends React.Component<SkilEditProps> {
             </div>
             <div className="field-row">
               <label className="field-label col-2">いりょく</label>
-              <input className="col-1" type="number" value={this.state.power} onChange={(e) => this.setState({power: e.target.value})} disabled={!this.state.ready} />
+              <input className="col-1" type="number" defaultValue={this.state.power} onChange={(e) => this.setState({power: e.target.value})} disabled={!this.state.ready} />
             </div>
             <div className="field-row">
               <label className="field-label col-2">命中率</label>
-              <input className="col-1" type="number" value={this.state.hit} onChange={(e) => this.setState({hit: e.target.value})} disabled={!this.state.ready} />
+              <input className="col-1" type="number" defaultValue={this.state.hit} onChange={(e) => this.setState({hit: e.target.value})} disabled={!this.state.ready} />
             </div>
             <div className="field-row">
               <label className="field-label col-2">最大PP</label>
-              <input className="col-1" type="number" value={this.state.max_pp} onChange={(e) => this.setState({max_pp: e.target.value})} disabled={!this.state.ready} />
+              <input className="col-1" type="number" defaultValue={this.state.max_pp} onChange={(e) => this.setState({max_pp: e.target.value})} disabled={!this.state.ready} />
             </div>
           </div>
           <div className="dialog-command">
