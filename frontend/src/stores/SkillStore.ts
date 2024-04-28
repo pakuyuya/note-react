@@ -29,7 +29,7 @@ export class SkillStore {
     
     async update(skill: Skill): Promise<Skill> {
         const response = await fetch(`/api/skill/update/${skill.skill_id}`, {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },

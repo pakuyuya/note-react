@@ -148,6 +148,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
     const state = {...this.plainState};
 
     // 読み込み前から画面表示するデータを設定する
+    state.skill_id = skill_id;
     if (skill_id === undefined) {
       state.mode = 'add';
       state.title = 'わざ登録';

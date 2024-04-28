@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 app.use(require('@/api/SkillSearchApi').router);
 app.use(require('@/api/SkillAddApi').router);
+app.use(require('@/api/SkillUpdateApi').router);
 app.use(require('@/api/SkillFetchApi').router);
 
 const port = 3001;
