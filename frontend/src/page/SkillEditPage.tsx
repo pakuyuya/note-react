@@ -103,7 +103,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
    */
   componentDidMount() {
 
-    // 呼出し元コンポーネントのeditId指定値を元に画面を起動する
+    // 呼出し元コンポーネントのeditId指定値を元にわざを読み込む
     this.reload(this.props.editId);
 
   }
@@ -126,9 +126,8 @@ class SkillEditPage extends React.Component<SkilEditProps> {
     // 保存処理
     this.save()
       .then((skill) => {
-        console.log('save success', skill);
         // 画面を再読み込み
-        this.reload(skill.skill_id)
+        this.reload(skill?.skill_id)
             .then(() => {
               // メッセージ表示
               this.setState({infoMessages: ['保存しました']});
@@ -254,7 +253,8 @@ class SkillEditPage extends React.Component<SkilEditProps> {
    * 保存処理
    * @returns Store呼び出し結果
    */
-  async save(): Promise<Skill> {
+  async save(): Promise<Skill | undefined> {
+
     const state = this.state;
     const skill : Skill =
       {
