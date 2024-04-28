@@ -121,18 +121,23 @@ class SkillEditPage extends React.Component<SkilEditProps> {
     }
 
     // エラーメッセージをクリア
-    this.setState({errorMessages: [], infoMessages: []});
+    this.setState({errorMessages: [], infoMessages: [], ready: false});
 
     // 保存処理
     this.save()
       .then((skill) => {
-
+        console.log('save success', skill);
         // 画面を再読み込み
         this.reload(skill.skill_id)
             .then(() => {
               // メッセージ表示
               this.setState({infoMessages: ['保存しました']});
             });
+      })
+      .catch((err) => {
+        console.error(err);
+
+        this.setState({ready: true});
       });
   }
 
@@ -161,7 +166,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
     this.setState(state);
 
     // API問合せ・各種読み込み開始
-    Promise.all([
+    await Promise.all([
       this.typeStore.fetchAll(),
       this.attrStore.fetchAll(),
       state.mode === 'add' ? Promise.resolve(undefined)
@@ -272,8 +277,8 @@ class SkillEditPage extends React.Component<SkilEditProps> {
       };
     
     // 登録・更新処理
-    return state.mode === 'add' ? this.skillStore.add(skill)
-                                : this.skillStore.update(skill);
+    return state.mode === 'add' ? await this.skillStore.add(skill)
+                                : await this.skillStore.update(skill);
   }
 
 

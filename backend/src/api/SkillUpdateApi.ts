@@ -81,7 +81,7 @@ router.post('/api/skill/update/:skill_id', async (req: express.Request, res: exp
             res.status(404).json({errors: ['指定されたわざが見つかりません']});
         }
 
-        res.status(201);
+        res.status(201).json({data: {skill_id: skill_id}});
     } finally {
         if (conn) {
             // DB切断

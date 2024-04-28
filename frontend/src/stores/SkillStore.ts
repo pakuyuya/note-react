@@ -39,7 +39,8 @@ export class SkillStore {
             console.error(response.body);
             throw new Error('Failed to update skill');
         }
-
-        return await response.json();
+        
+        const body = await response.json();
+        return body.data;
     }
 }
