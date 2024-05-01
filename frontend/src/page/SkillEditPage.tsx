@@ -135,8 +135,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
       })
       .catch((err) => {
         console.error(err);
-
-        this.setState({ready: true});
+        this.setState({errorMessages: ['処理に失敗しました。再度実行して改善しない場合、管理者にお問い合わせください'], ready: true});
       });
   }
 
@@ -303,7 +302,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
             (this.state.errorMessages.length > 0) && // エラーメッセージがある場合のみ表示
               (
                 <div className="message-error">
-                  <div className="message-caption">入力エラーがあります。</div>
+                  <div className="message-caption">エラーがあります。</div>
                   <ul>
                     {this.state.errorMessages.map((message) => ( // エラーメッセージの分繰り返す
                       <li key={message}>{message}</li>
