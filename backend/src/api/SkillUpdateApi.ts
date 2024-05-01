@@ -1,14 +1,17 @@
 import express from 'express';
 import {PoolClient} from 'pg';
+import path from 'path';
 
 import db from '@/config/db';
 import {SkillUpdateService} from '@/service/SkillUpdateService';
 import {isRequired, isNumeric, isMaxlen, isRange} from '@/util/validation';
 
+
 export const router = express.Router();
 
 router.post('/api/skill/update/:skill_id', async (req: express.Request, res: express.Response) => {
     console.log('POST /api/skill/update/:skill_id');
+    console.log(req.body);
 
     const {skill_id} = req.params;
 

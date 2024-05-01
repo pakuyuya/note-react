@@ -6,13 +6,14 @@ import './SkillPage.css';
 
 import SkillEditPage from './SkillEditPage';
 import {SkillSearchStore} from '@/stores/SkillSearchStore';
+import {SkillStore} from '@/stores/SkillStore';
 import {TypeStore} from '@/stores/TypeStore';
 
 /**
  * SkillPageのstate型
  * @property condition 検索条件
  * @property condition.skill_name わざ名
- * @property items リスト
+ * @property items 明細
  * @property crtpage 現在ページ
  * @property lastpage 最終ページ
  * @property offset オフセット
@@ -55,6 +56,7 @@ type SkillState = {
 // 依存Store
 // ------------------------------
 const skillSearchApiClient = new SkillSearchStore();
+const skileStore = new SkillStore();
 const typeStore = new TypeStore();
 
 /**
@@ -149,7 +151,23 @@ class SkillPage extends React.Component<RouteComponentProps> {
    * 選択したものを削除ボタンクリック
    */
   clickRemoveSelected() {
-    // TODO: 
+    const checkedItems = this.state.items.filter((item) => item.checked);
+    if (checkedItems.length === 0) {
+      // 未選択のためキャンセル
+      return;
+    }
+
+    if (!window.confirm('選択したわざを削除します。よろしいですか？')) {
+      // キャンセル
+      return;
+    }
+    
+    // 削除API実行
+    const ids = checkedItems.map((item) => item.skill_id);
+    skileStore.remove(ids).then(() => {
+      // 再検索
+      this.search();
+    });
   }
   
   /**
