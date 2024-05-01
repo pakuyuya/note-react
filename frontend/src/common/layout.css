@@ -46,11 +46,11 @@ button {
     }
     /* 非活性ボタンの色装飾 */
     &:disabled {
-        color: #888888;
-        background: #eeeef5;
-        cursor: default;
+        color: #888888 !important;
+        background: #eeeef5 !important;
+        cursor: default !important;
         &:hover {
-            background: default;
+            background: default !important;
         }
     }
     /* primaryボタンの色装飾 */

@@ -14,6 +14,7 @@ import {TypeStore} from '@/stores/TypeStore';
  * @property condition 検索条件
  * @property condition.skill_name わざ名
  * @property items 明細
+ * @property someItemChecked １件以上明細チェックがついているか
  * @property crtpage 現在ページ
  * @property lastpage 最終ページ
  * @property offset オフセット
@@ -43,6 +44,7 @@ type SkillState = {
       /** 説明 */
       skill_description: string;
     }[];
+    someItemChecked: boolean;
     crtpage: number;
     lastpage: number;
     offset: number;
@@ -76,6 +78,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
       skill_name: '',
     },
     items: [],
+    someItemChecked: false,
     crtpage: 0,
     lastpage: 0,
     offset: 0,
@@ -116,13 +119,13 @@ class SkillPage extends React.Component<RouteComponentProps> {
    * ヘッダチェッククリック
    * @param e イベント引数
    */
-  clickHeaderChecked(e: React.MouseEvent<HTMLInputElement>) {
+  clickHeaderChecked(e: React.ChangeEvent<HTMLInputElement>) {
     const tobeChecked = e.currentTarget.checked;
     const items = this.state.items.slice();
     for (let i = 0; i < items.length; i++) {
       items[i].checked = tobeChecked;
     }
-    this.setState({items: items});
+    this.setState({items: items, someItemChecked: tobeChecked});
   }
 
   /**
@@ -132,7 +135,10 @@ class SkillPage extends React.Component<RouteComponentProps> {
   clickItemChecked(index: number) {
     const items = this.state.items.slice();
     items[index].checked = !items[index].checked;
-    this.setState({items: items});
+
+    const someItemChecked = Boolean(items.some((item) => item.checked));
+
+    this.setState({items: items, someItemChecked: someItemChecked});
   }
 
   /**
@@ -178,6 +184,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
     const dialog = document.getElementById('skillEditDialog') as HTMLDialogElement;
     dialog.close();
   }
+
 
   // ------------------------------
   // 内部処理
@@ -255,7 +262,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
             <tbody>
             <tr key={'header'}>
               <th className="col-1 text-center">
-                <input type="checkbox" onClick={(e) => this.clickHeaderChecked(e)} />
+                <input type="checkbox" checked={this.state.someItemChecked} onChange={(e) => this.clickHeaderChecked(e)} />
               </th>
               <th className="col-3">わざ</th>
               <th className="col-1">タイプ</th>
@@ -265,7 +272,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
             </tr>
             {this.state.items.map((item, i) =>  (
               <tr key={item.skill_id}>
-                <td className="text-center"><input type="checkbox" defaultChecked={item.checked} onClick={(e) => this.clickItemChecked(i)} /></td>
+                <td className="text-center"><input type="checkbox" checked={item.checked} onChange={(e) => this.clickItemChecked(i)} /></td>
                 <td className="text-left"><a href="#" onClick={() => this.clickSkillName(item.skill_id)}>{item.skill_name}</a></td>
                 <td className="text-center skill-type">{item.type_name}</td>
                 <td className="text-center">{item.power}</td>
@@ -278,7 +285,7 @@ class SkillPage extends React.Component<RouteComponentProps> {
           <nav className="list-nav">
             <div className="list-pages"></div>
             <div className="list-cmd">
-              <button className="secondary" onClick={(e) => this.clickRemoveSelected()}>選択したものを削除</button>
+              <button className="secondary" onClick={(e) => this.clickRemoveSelected()} disabled={!this.state.someItemChecked}>選択したものを削除</button>
             </div>
           </nav>
           <dialog id="skillEditDialog">
