@@ -34,6 +34,10 @@ export class SkillUpdateService {
 
       // 結果返却
       return queryResult.rowCount || 0;
+    } catch (e) {
+      // エラー発生時はロールバック
+      client.query('ROLLBACK');
+      throw e;  // 例外を再スロー
     } finally {
       if (client) {
         // DB切断

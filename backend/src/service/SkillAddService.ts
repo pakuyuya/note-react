@@ -37,10 +37,14 @@ export class SkillAddService {
         = `INSERT INTO skill(skill_id, skill_name, skill_description, type_code, skill_attr_code, power, hit, max_pp, create_at, update_at, create_pgm, update_pgm)
                       VALUES($1, $2, $3, $4, $5, $6, $7, $8, now(), now(), $9, $10)`;
       const insertParams: Array<any> = [skill_id, param.skill_name, param.skill_description, param.type_code, param.skill_attr_code, param.power, param.hit, param.max_pp, param.pgm_id, param.pgm_id];
-      const totalResult = await client.query(insertSql, insertParams);
+      await client.query(insertSql, insertParams);
 
       // 結果返却
       return {skill_id: skill_id};
+    } catch (e) {
+      // エラー発生時はロールバック
+      client.query('ROLLBACK');
+      throw e;  // 例外を再スロー
     } finally {
       if (client) {
         // DB切断
