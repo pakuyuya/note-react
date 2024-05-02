@@ -43,6 +43,7 @@ export class SkillAddService {
       return {skill_id: skill_id};
     } catch (e) {
       // エラー発生時はロールバック
+      console.error(e);
       client.query('ROLLBACK');
       throw e;  // 例外を再スロー
     } finally {

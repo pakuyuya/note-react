@@ -19,3 +19,7 @@ export type Skill = {
     hit: number;
     max_pp: number;
 }
+
+export type SaveSkillResult = {
+    skill_id: number;
+}

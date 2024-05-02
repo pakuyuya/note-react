@@ -36,6 +36,7 @@ export class SkillUpdateService {
       return queryResult.rowCount || 0;
     } catch (e) {
       // エラー発生時はロールバック
+      console.error(e);
       client.query('ROLLBACK');
       throw e;  // 例外を再スロー
     } finally {

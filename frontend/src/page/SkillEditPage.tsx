@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { Type } from '@/types/Type';
 import { TypeStore } from '@/stores/TypeStore';
-import { Skill } from '@/types/Skill';
+import { Skill, SaveSkillResult } from '@/types/Skill';
 import { SkillStore } from '@/stores/SkillStore';
 import { Attr } from '@/types/Attr';
 import { AttrStore } from '@/stores/AttrStore';
@@ -252,7 +252,7 @@ class SkillEditPage extends React.Component<SkilEditProps> {
    * 保存処理
    * @returns Store呼び出し結果
    */
-  async save(): Promise<Skill | undefined> {
+  async save(): Promise<SaveSkillResult | undefined> {
 
     const state = this.state;
     const skill : Skill =

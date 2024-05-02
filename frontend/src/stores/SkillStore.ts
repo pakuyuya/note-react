@@ -1,4 +1,4 @@
-import { Skill } from '@/types/Skill';
+import { Skill, SaveSkillResult } from '@/types/Skill';
 
 /**
  * わざストア
@@ -24,7 +24,7 @@ export class SkillStore {
      * @param skill わざ情報
      * @returns わざID
      */
-    async add(skill: Skill): Promise<Skill> {
+    async add(skill: Skill): Promise<SaveSkillResult> {
         // リクエストの送信
         const response = await fetch('/api/skill/add', {
             // HTTPメソッド
@@ -49,7 +49,7 @@ export class SkillStore {
      * @param skill わざ情報
      * @returns わざ情報
      */
-    async update(skill: Skill): Promise<Skill> {
+    async update(skill: Skill): Promise<SaveSkillResult | undefined> {
         // リクエストの送信
         const response = await fetch(`/api/skill/update/${skill.skill_id}`, {
             // HTTPメソッド
@@ -66,8 +66,8 @@ export class SkillStore {
             throw new Error('Failed to update skill');
         }
         
-        const body = await response.json();
-        return body.data;
+        await response.json();
+        return {skill_id: skill.skill_id};
     }
 
     /**
