@@ -1,12 +1,12 @@
 import { Type } from '@/types/Type';
 
 /**
- * わざストア
+ * タイプストア
  */
 export class TypeStore {
 
     /**
-     * わざ定義
+     * タイプ定義
      */
     types: Type[] = [
         { type_code: '01', type_name: 'ノーマル', bgColor: '#A8A77A', textColor: '#000000'},
@@ -31,7 +31,7 @@ export class TypeStore {
 
     /**
      * 空のタイプ定義を取得
-     * @returns タイプの一覧
+     * @returns 空のタイプ
      */
     empty(): Type {
         return { type_code: '', type_name: '', bgColor: '#FFFFFF', textColor: '#000000'};
@@ -39,8 +39,8 @@ export class TypeStore {
 
     /**
      * タイプコードから定義を取得
-     * @param type_code 
-     * @returns 
+     * @param type_code タイプコード
+     * @returns タイプの定義。見つからない場合はundefined
      */
     async getName(type_code: string): Promise<string | undefined> {
         return this.types.find(type => type.type_code === type_code)?.type_name;

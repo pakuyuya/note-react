@@ -5,6 +5,9 @@ import {BrowserRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
 
 import SkillPage from './page/SkillPage';
 
+/**
+ * アプリケーションの全体レイアウト
+ */
 class App extends React.Component {
   
   state = { hideMenu: false };
@@ -51,6 +54,7 @@ class App extends React.Component {
     );
   }
 
+  /** メニュー表示/非表示切替 */
   toggleMenu = () => {
     const newState = {
       hideMenu: !this.state.hideMenu

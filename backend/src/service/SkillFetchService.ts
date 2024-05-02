@@ -2,13 +2,15 @@ import pg from 'pg';
 import pool from '@/config/db';
 
 /**
- * わざ登録サービス
+ * わざ取得サービス
  */
 export class SkillFetchService {
 
+  /** DBクライアント */
   conn?: pg.PoolClient;
 
   /**
+   * コンストラクタ
    * @param client DBクライアント
    */
   constructor(private client: pg.PoolClient) {
@@ -18,7 +20,7 @@ export class SkillFetchService {
   /**
    * わざ追加
    * @param param パラメータ
-   * @returns 追加結果
+   * @returns 取得結果
    */
   async fetch(param: SkillFetchParam): Promise<SkillFetchResult> {
     // DB接続
@@ -52,14 +54,15 @@ export interface SkillFetchParam {
 
 /**
  * わざ取得結果
- * @property skill_id わざID
- * @property skill_name わざ名
- * @property skill_description わざ説明
- * @property type_code タイプコード
- * @property skill_attr_code わざ種別コード
- * @property power 威力
- * @property hit 命中率
- * @property max_pp 最大PP
+ * @property data わざ情報。取得できなかった場合はundefined
+ * @property data.skill_id わざID
+ * @property data.skill_name わざ名
+ * @property data.skill_description わざ説明
+ * @property data.type_code タイプコード
+ * @property data.skill_attr_code わざ種別コード
+ * @property data.power 威力
+ * @property data.hit 命中率
+ * @property data.max_pp 最大PP
  */
 export type SkillFetchResult = {
   data?: {

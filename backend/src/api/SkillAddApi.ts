@@ -7,10 +7,15 @@ import {isRequired, isNumeric, isMaxlen, isRange} from '@/util/validation';
 
 export const router = express.Router();
 
+/**
+ * わざ追加API
+ */
 router.post('/api/skill/add', async (req: express.Request, res: express.Response) => {
-    console.log('POST /api/skill/add');
+    const API_NAME = 'POST /api/skill/add';
+    console.log(API_NAME, 'with parameter: ', req.body);
 
-    const body:  {
+    // リクエストパラメータ取得
+    const body: {
         skill_name: string;
         skill_description: string;
         type_code: string;
@@ -20,7 +25,7 @@ router.post('/api/skill/add', async (req: express.Request, res: express.Response
         max_pp: number;
     } = req.body;
 
-    // パラメータ検証
+    // リクエストパラメータ検証
     const errors = [];
     errors.push(
         isMaxlen(body.skill_name, 'わざ名', 30),
@@ -45,8 +50,10 @@ router.post('/api/skill/add', async (req: express.Request, res: express.Response
         isRequired(body.max_pp, '最大PP'),
     );
     
+    // errorsから、undefined（エラー無し）以外の結果を探索
     if (errors.some((v) => v !== undefined)) {
-        // パラメータエラーありの場合、400応答
+        // リクエストパラメータエラーありの場合、400応答
+        console.log(API_NAME, '400 Bad Request');
         res.status(400).json({errors: errors.filter((v) => v !== undefined)});
         return;
     }
@@ -56,11 +63,8 @@ router.post('/api/skill/add', async (req: express.Request, res: express.Response
         // DB接続
         conn = await db.connect();
 
-        // メイン処理
-
-        // SkillAddService実行
+        // Service実行
         const service = new SkillAddService(conn);
-
         const result = await service.add({
             skill_name: body.skill_name,
             skill_description: body.skill_description,
@@ -72,7 +76,9 @@ router.post('/api/skill/add', async (req: express.Request, res: express.Response
             pgm_id: '/api/skill/add',
         });
 
-        res.status(200).json({
+        // 正常応答
+        console.log(API_NAME, '201 Created');
+        res.status(201).json({
             data: {
                 skill_id: result.skill_id,
             }

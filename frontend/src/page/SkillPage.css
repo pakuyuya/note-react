@@ -1,30 +1,38 @@
+/* 検索条件 */
 .condition {
     margin-bottom: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
 }
 
+/* 明細 */
 .list {
     margin-top: 10px;
 }
+
+/* ページネーション */
 .list-nav {
     display: flex;
     flex-direction: row;
     width: 800px;
 }
 
+/* ページネーション：ページリスト */
 .list-pages {
     flex-grow: 1;
 }
 
+/* 明細-コマンド */
 .list-cmd {
     width: 100px;
 }
 
+/* 明細テーブル */
 table {
     width: 800px;
 }
 
+/* 明細テーブル：わざタイプ */
 .skill-type {
     font-size: 12px;
 }

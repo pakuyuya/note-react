@@ -6,9 +6,11 @@ import pool from '@/config/db';
  */
 export class SkillRemoveService {
 
+  /** DBクライアント */
   conn?: pg.PoolClient;
 
   /**
+   * コンストラクタ
    * @param client DBクライアント
    */
   constructor(private client: pg.PoolClient) {
@@ -44,8 +46,8 @@ export class SkillRemoveService {
 }
 
 /**
- * わざ更新パラメータ
- * @property skill_ids わざID
+ * わざ削除パラメータ
+ * @property skill_ids わざIDリスト
  */
 export interface SkillRemoveParam {
   skill_ids: number[];

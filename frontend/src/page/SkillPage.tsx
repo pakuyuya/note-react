@@ -12,8 +12,17 @@ import {TypeStore} from '@/stores/TypeStore';
 /**
  * SkillPageのstate型
  * @property condition 検索条件
- * @property condition.skill_name わざ名
+ * @property condition.skill_name 検索わざ名
+ * @property errorMessages エラーメッセージ
  * @property items 明細
+ * @property items.checked 選択状態
+ * @property items.skill_id わざID
+ * @property items.skill_name わざ名
+ * @property items.type_code タイプ
+ * @property items.type_name タイプ名
+ * @property items.power 威力
+ * @property items.hit 命中
+ * @property items.skill_description 説明
  * @property someItemChecked １件以上明細チェックがついているか
  * @property crtpage 現在ページ
  * @property lastpage 最終ページ
@@ -26,6 +35,7 @@ type SkillState = {
     condition: {
         skill_name: string;
     }
+    errorMessages: string[];
     items: {
       /** 選択状態 */
       checked: boolean;
@@ -57,7 +67,7 @@ type SkillState = {
 // ------------------------------
 // 依存Store
 // ------------------------------
-const skillSearchApiClient = new SkillSearchStore();
+const skillSearchStore = new SkillSearchStore();
 const skileStore = new SkillStore();
 const typeStore = new TypeStore();
 
@@ -71,12 +81,13 @@ class SkillPage extends React.Component<RouteComponentProps> {
   // ------------------------------
 
   /**
-   * state
+   * stateと初期値
    */
   state: SkillState = {
     condition: {
       skill_name: '',
     },
+    errorMessages: [],
     items: [],
     someItemChecked: false,
     crtpage: 0,
@@ -99,10 +110,15 @@ class SkillPage extends React.Component<RouteComponentProps> {
     this.search();
   }
   
-  submitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  /**
+   * 検索ボタンクリック
+   * @param e イベント引数
+   */
+  submitSearch(e: React.FormEvent<HTMLFormElement>) {
     // ブラウザのデフォルト動作をキャンセル（Submit）
     e.preventDefault();
 
+    // 検索実施
     this.search();
   }
 
@@ -194,11 +210,16 @@ class SkillPage extends React.Component<RouteComponentProps> {
    * 検索
    */
   search() {
-    skillSearchApiClient.search({
+    // エラーメッセージをクリア
+    this.setState({errorMessages: []});
+
+    // 検索実施
+    skillSearchStore.search({
       skill_name: this.state.condition.skill_name,
       offset: this.state.offset,
       limit: this.state.pagesize,
     }).then(async (result) => {
+      // 正常終了時
 
       // 表示リストを作成
       const items = [];
@@ -226,6 +247,13 @@ class SkillPage extends React.Component<RouteComponentProps> {
         items: items,
         lastpage: Math.ceil(result.total / this.state.pagesize),
       });
+    })
+    .catch((err) => {
+      // エラー時
+      console.error(err);
+      
+      // エラーメッセージを設定
+      this.setState({errorMessages: ['処理に失敗しました。再度実行して改善しない場合、管理者にお問い合わせください']});
     });
 
   }
@@ -243,6 +271,18 @@ class SkillPage extends React.Component<RouteComponentProps> {
     return (
       <div className="Skill">
         <div className="condition">
+            {(this.state.errorMessages.length > 0) && // エラーメッセージがある場合のみ表示
+              (
+                <div className="message-error">
+                  <div className="message-caption">エラーがあります。</div>
+                  <ul>
+                    {this.state.errorMessages.map((message) => ( // エラーメッセージの分繰り返す
+                      <li key={message}>{message}</li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
           <form onSubmit={(e) => this.submitSearch(e)}>
             <label className="condition-label col-1">わざ</label>
             <input className="condition-text col-2" type="text" name="skill_name" value={this.state.condition.skill_name} onChange={(e) => this.setState({condition: {skill_name: e.target.value}})} />

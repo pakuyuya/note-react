@@ -9,12 +9,15 @@ import {isRequired, isNumeric, isMaxlen, isRange} from '@/util/validation';
 
 export const router = express.Router();
 
+/**
+ * わざ更新API
+ */
 router.post('/api/skill/update/:skill_id', async (req: express.Request, res: express.Response) => {
-    console.log('POST /api/skill/update/:skill_id');
-    console.log(req.body);
+    const API_NAME = 'POST /api/skill/update/:skill_id';
+    console.log(API_NAME, 'with parameter: ', req.params, req.body);
 
+    // リクエストパラメータ取得
     const {skill_id} = req.params;
-
     const body:  {
         skill_name: string;
         skill_description: string;
@@ -53,8 +56,10 @@ router.post('/api/skill/update/:skill_id', async (req: express.Request, res: exp
         isRequired(body.max_pp, '最大PP'),
     );
     
+    // errorsから、undefined（エラー無し）以外の結果を探索
     if (errors.some((v) => v !== undefined)) {
         // パラメータエラーありの場合、400応答
+        console.log(API_NAME, '400 Bad Request');
         res.status(400).json({errors: errors.filter((v) => v !== undefined)});
         return;
     }
@@ -64,9 +69,7 @@ router.post('/api/skill/update/:skill_id', async (req: express.Request, res: exp
         // DB接続
         conn = await db.connect();
 
-        // メイン処理
-
-        // SkillAddService実行
+        // service実行
         const service = new SkillUpdateService(conn);
         const updateCount = await service.update({
             skill_id: Number(skill_id),
@@ -81,6 +84,8 @@ router.post('/api/skill/update/:skill_id', async (req: express.Request, res: exp
         });
 
         if (updateCount <= 0) {
+            // 更新対象なしの場合、404応答
+            console.log(API_NAME, '404 Not Found');
             res.status(404).json({errors: ['指定されたわざが見つかりません']});
         }
 

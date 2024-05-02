@@ -11,8 +11,10 @@ export const router = express.Router();
  * わざ削除API
  */
 router.post('/api/skill/remove', async (req: express.Request, res: express.Response) => {
-    console.log('POST /api/skill/remove with body: ', req.body);
+    const API_NAME = 'POST /api/skill/remove';
+    console.log(API_NAME, 'with parameter: ', req.body);
 
+    // リクエストパラメータ取得
     const body:  {
         skill_ids: number[];
     } = req.body;
@@ -30,23 +32,34 @@ router.post('/api/skill/remove', async (req: express.Request, res: express.Respo
         }));
     }
 
+    // errorsから、undefined（エラー無し）以外の結果を探索
+    if (errors.some((v) => v !== undefined)) {
+        // リクエストパラメータエラーありの場合、400応答
+        console.log(API_NAME, '400 Bad Request');
+        res.status(400).json({errors: errors.filter((v) => v !== undefined)});
+        return;
+    }
+
+
     let conn: PoolClient | undefined;
     try {
         // DB接続
         conn = await db.connect();
 
-        // メイン処理
-
-        // Service実行
+        // service実行
         const service = new SkillRemoveService(conn);
         const removeCount = await service.remove({
             skill_ids: body.skill_ids,
         });
 
         if (removeCount <= 0) {
+            // 削除対象なしの場合、404応答
+            console.log(API_NAME, '404 Not Found');
             res.status(404).json({errors: ['指定されたわざが見つかりません']});
         }
 
+        // 正常応答
+        console.log(API_NAME, '200 OK');
         res.status(201).json({count: removeCount});
     } finally {
         if (conn) {

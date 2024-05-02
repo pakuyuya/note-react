@@ -16,7 +16,7 @@ export class SkillUpdateService {
   }
 
   /**
-   * わざ追加
+   * わざ更新
    * @param param パラメータ
    * @returns 更新件数
    */
@@ -66,12 +66,4 @@ export interface SkillUpdateParam {
   hit: number | undefined;
   max_pp: number;
   pgm_id: string;
-}
-
-/**
- * わざ追加結果
- * @property skill_id わざID
- */
-export interface SkillAddResult {
-  skill_id: number;
 }

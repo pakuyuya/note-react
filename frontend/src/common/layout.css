@@ -13,29 +13,52 @@
  * -------------------------------------------------------- */
 
 :root {
+    /** 背景色-タイトル */
     --bgcolor-title: #282c34;
+    /** 文字色-タイトル */
     --txcolor-title: white;
 
+    /** 背景色-プライマリカラー */
     --bgcolor-primary: #46b3e6;
+    /** 背景色-プライマリカラー（強調時） */
     --bgcolor-primary-active: #61dafb;
+    /** 文字色-プライマリカラー */
     --txcolor-primary: #ffffff;
+    /** 背景色-セカンダリカラー */
     --bgcolor-secondary: #dddddd;
+    /** 文字色-セカンダリカラー */
     --txcolor-secondary: #000000;
+    /** 背景色-テリアリカラー */
     --bgcolor-teriary: #007F73;
+    /** 文字色-テリアリカラー */
     --txcolor-teriary: #ffffff;
 }
 
 /* -------------------------------------------------------- *
- *  共通スタイル（要素指定）
+ *  共通スタイル（コントロール関連）
  * -------------------------------------------------------- */
+
+/* 入力フォーム行 */
+.field-row {
+    padding: 5px;    
+}
+/* 入力フォームラベル */
+.field-label {
+    display: inline-block;
+    text-align: center;
+}
 
 /**
  * ボタン
  */
 button {
+    /* 内余白 */
     padding: 3px 10px;
+    /* 外余白 */
     margin: 5px;
+    /* ポインター形状 */
     cursor: pointer;
+    /* 枠線=無し */
     border: none;
 
     /* 通常ボタンの色装飾 */
@@ -44,6 +67,7 @@ button {
     &:hover {
         background: #61dafb;
     }
+
     /* 非活性ボタンの色装飾 */
     &:disabled {
         color: #888888 !important;
@@ -57,6 +81,7 @@ button {
     &.primary {
         color: var(--txcolor-primary);
         background: var(--bgcolor-primary);
+        /* マウスホバー時の色 */
         &:hover {
             background: var(--bgcolor-primary-active);
         }
@@ -65,6 +90,7 @@ button {
     &.secondary {
         color: var(--txcolor-secondary);
         background: var(--bgcolor-secondary);
+        /* マウスホバー時の色 */
         &:hover {
             background: var(--bgcolor-primary-active);
         }
@@ -72,39 +98,46 @@ button {
 
 }
 
+/* ラベル（コントロールの説明） */
 label {
+    /* inline-block要素指定 */
     display: inline-block;
+    /* 内余白-右 */
     padding-right: 5px;
+    /* 内余白-左 */
     padding-left: 5px;
+    /* 横方向テキスト並び */
     text-align: center;
 }
 
+/* テキストボックス、セレクトボックスの共通レイアウト */
 input[type="text"], input[type="search"], input[type="password"], input[type="email"], input[type="number"], input[type="tel"], select {
+    /* 内余白 */
     padding: 5px;
 }
 
+/* チェックボックス、ラジオボタンの共通レイアウト */
 input[type="checkbox"], input[type="radio"] {
+    /* 外余白-左 */
     margin-left: 2px;
+    /* 外余白-右 */
     margin-right: 2px;
 }
 
-.field-row {
-    padding: 5px;    
-}
-.field-label {
-    display: inline-block;
-    text-align: center;
-}
 
-/*
- * テーブル
- */
+/* -------------------------------------------------------- *
+ *  共通スタイル（テーブル関連）
+ * -------------------------------------------------------- */
+
+/* テーブル */
 table {
     /* 枠線＝隣接要素間で重ねる */
     border-collapse: collapse;
     /* 枠線装飾 */
     border: solid 1px #cccccc;
 }
+
+/* テーブルセル */
 th, td {
     /* 枠線装飾 */
     border: solid 1px #cccccc;
@@ -112,19 +145,29 @@ th, td {
     padding: 2px 5px;
 }
 
-/**
- * ダイアログ
- */
+/* -------------------------------------------------------- *
+ *  共通スタイル（ダイアログ関連）
+ * -------------------------------------------------------- */
+ 
+/* ダイアログ */
 dialog {
+    /* ダイアログの位置：スクロールによらず固定 */
     position: fixed;
+    /* ダイアログ最大高さ：ウィンドウ高さの80% */
     max-height: 80vh;
+    /* ダイアログ最大幅：ウィンドウ幅の90% */
     max-width: 90vw;
+    /* ダイアログの縦方向開始位置：上からウィンドウ高さ10% */
     top: 10vh;
+    /* ダイアログの横方向開始位置：中央（left、transform: translateXあわせての指定） */
     left: 50vw;
     transform: translateX(-50%);
 
+    /* 枠線：無し */
     border: 0;
+    /* 枠線：角丸 */
     border-radius: 0.2rem;
+    /* ボックス影 */
     box-shadow: 0 0 1em black;
 }
 
@@ -136,36 +179,53 @@ dialog::backdrop {
 
 /* ダイアログヘッダ */
 .dialog-header {
+    /* 高さ */
     height: 40px;
+    /* 内余白-左 */
+    padding-left: 10px;
+    /* 子要素を横並び指定にする */
     display: flex;
     flex-direction: row;
-    padding-left: 10px;
-    
+
+    /* 背景色 */
     background: var(--bgcolor-title);
+    /* 文字色 */
     color: var(--txcolor-title);
 }
 /* ダイアログヘッダ-タイトル */
 .dialog-header-title {
+    /* フォントサイズ */
     font-size: 20px;
+    /* フォント太さ */
     font-weight: normal;
-    
+    /* 行の高さ */
     line-height: 40px;
+    /* inline-block要素指定 */
     display: inline-block;
+    /* flex要素内の余った幅を専有するように要素を伸ばす */
     flex-grow: 1;
 }
 
 /* ダイアログヘッダ-閉じるボタン */
 .dialog-header-close {
-    line-height: 40px;
-    margin-right: 10px;
-    color: #888;
-    text-align: right;
-    cursor: pointer;
+    /* フォントサイズ */
     font-size: 40px;
+    /* 行の高さ */
+    line-height: 40px;
+    /* 外余白-右 */
+    margin-right: 10px;
+    /* 文字色 */
+    color: #888;
+    /* テキスト右寄せ */
+    text-align: right;
+    /* ポインター形状 */
+    cursor: pointer;
 
+    /* この要素の中に×を表示 */
     &::after {
         content:'×';
     }
+    /* マウスホバー時の色 */
     &:hover {
         color: #eee;
     }
@@ -173,22 +233,34 @@ dialog::backdrop {
 
 /* ダイアログ-コンテンツ */
 .dialog-content {
+    /* 内余白 */
     padding: 10px;
 }
 
 /* ダイアログ-下部ボタン */
 .dialog-command {
+    /* 内余白-上 */
     padding-top: 0px;
+    /* 内余白-左 */
     padding-left: 10px;
+    /* 内余白-右 */
     padding-right: 10px;
+    /* 内余白-下 */
     padding-bottom: 10px;
+    /* テキスト右寄せ */
     text-align: right;
 }
 
+/* -------------------------------------------------------- *
+ *  共通スタイル（メッセージ関連）
+ * -------------------------------------------------------- */
+
+/* メッセージタイトル */
 .message-caption {
-    font-weight: bold;;
+    font-weight: bold;
 }
 
+/* メッセージ：info */
 .message-info {
     color: #055160;
     background-color: #cff4fc;
@@ -197,6 +269,8 @@ dialog::backdrop {
     padding: 5px;
     margin: 5px;
 }
+
+/* メッセージ：error */
 .message-error {
     color: #58151c;
     background-color: #f8d7da;
@@ -205,6 +279,7 @@ dialog::backdrop {
     margin: 5px;
     padding: 10px;
     
+    /* メッセージ内のリスト */
     ul {
         margin-top: 5px;
     }

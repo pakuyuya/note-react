@@ -29,9 +29,7 @@ export function isNumeric(s:string | number | undefined, name:string, opt?:{min?
         return undefined;
     }
 
-    if (typeof s === 'number') {
-        return undefined;
-    }    
+    s = String(s);
 
     if (!s.match(/^[-\d]+$/)) {
         return `${name}に半角数字以外が指定されています`;

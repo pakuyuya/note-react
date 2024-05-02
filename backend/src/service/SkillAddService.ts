@@ -2,13 +2,15 @@ import pg from 'pg';
 import pool from '@/config/db';
 
 /**
- * わざ登録サービス
+ * わざ追加サービス
  */
 export class SkillAddService {
 
+  /** DBクライアント */
   conn?: pg.PoolClient;
 
   /**
+   * コンストラクタ
    * @param client DBクライアント
    */
   constructor(private client: pg.PoolClient) {
@@ -25,7 +27,7 @@ export class SkillAddService {
     const client = await pool.connect();
     try {
 
-      // わざID採番      
+      // わざID採番
       const sequenceSql = `SELECT nextval('skill_id_seq') AS skill_id`;
       const sequenceResult = await client.query(sequenceSql);
       const skill_id = sequenceResult.rows[0].skill_id;

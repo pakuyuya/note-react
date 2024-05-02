@@ -16,7 +16,7 @@ export class SkillStore {
             throw new Error('Failed to fetch skill');
         }
         const body = await response.json();
-        return await body.data;
+        return body.data;
     }
     
     /**
@@ -27,10 +27,13 @@ export class SkillStore {
     async add(skill: Skill): Promise<Skill> {
         // リクエストの送信
         const response = await fetch('/api/skill/add', {
+            // HTTPメソッド
             method: 'POST',
+            // リクエストヘッダ
             headers: {
                 'Content-Type': 'application/json',
             },
+            // パラメータ
             body: JSON.stringify(skill),
         });
         if (!response.ok) {
@@ -44,15 +47,18 @@ export class SkillStore {
     /**
      * わざ更新
      * @param skill わざ情報
-     * @returns 
+     * @returns わざ情報
      */
     async update(skill: Skill): Promise<Skill> {
         // リクエストの送信
         const response = await fetch(`/api/skill/update/${skill.skill_id}`, {
+            // HTTPメソッド
             method: 'POST',
+            // リクエストヘッダ
             headers: {
                 'Content-Type': 'application/json',
             },
+            // パラメータ
             body: JSON.stringify(skill),
         });
         if (!response.ok) {
@@ -72,10 +78,13 @@ export class SkillStore {
     async remove(skill_ids: number[]): Promise<number> {
         // リクエストの送信
         const response = await fetch(`/api/skill/remove`, {
+            // HTTPメソッド
             method: 'POST',
+            // リクエストヘッダ
             headers: {
                 'Content-Type': 'application/json',
             },
+            // パラメータ
             body: JSON.stringify({skill_ids: skill_ids}),
         });
         if (!response.ok) {
